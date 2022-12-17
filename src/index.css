@@ -1,10 +1,22 @@
 :root
 {
--Verydarkblue: hsl(212, 21%, 14%);
+-Verydarkblue: #e8eaed;
 -Darkgrayishblue: hsla(228, 12%, 48%, 0.868);
 -White: hsl(0, 0%, 100%);
--Darkcyan: hsla(0, 1%, 74%, 0.542);
+-Darkcyan: hsla(0, 0%, 38%, 0.819);
 -color: hsl(48, 61%, 47%);
+
+-color--btnActive: #1a73e8;
+-color--btntextActive: hsl(0, 0%, 96%);
+
+-color--btnHover: #3c4043;
+
+-color--btnSelected: hsl(216, 87%, 91%);
+-color--btntextSelected: hsl(214, 82%, 51%);
+
+
+
+
 
 }
 body {
