@@ -19,6 +19,7 @@ function rangerGenerator(start, limit) {
 let j = rangerGenerator(0, 5);
 let i = rangerGenerator(1, 7);
 let counter = 0;
+
 const DaysGregorian = ["S", "M", "T", "W", "T", "F", "S"];
 
 export default function CalanderSide() {

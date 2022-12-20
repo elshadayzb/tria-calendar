@@ -3,8 +3,8 @@
 -Verydarkblue: #e8eaed;
 -Darkgrayishblue: hsla(228, 12%, 48%, 0.868);
 -White: hsl(0, 0%, 100%);
--Darkcyan: hsla(0, 0%, 38%, 0.819);
--color: hsl(48, 61%, 47%);
+-Darkcyan: hsla(0, 0%, 40%, 0.849);
+-color: hsl(128, 97%, 43%);
 
 -color--btnActive: #1a73e8;
 -color--btntextActive: hsl(0, 0%, 96%);
@@ -14,7 +14,7 @@
 -color--btnSelected: hsl(216, 87%, 91%);
 -color--btntextSelected: hsl(214, 82%, 51%);
 
-
+--shadow1: 5px 5px 20px hsla(0, 1%, 36%, 0.842);
 
 
 
@@ -31,4 +31,5 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+    
 }
