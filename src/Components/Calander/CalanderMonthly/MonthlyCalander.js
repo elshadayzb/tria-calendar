@@ -1,19 +1,24 @@
-import { Fragment } from "react";
+import { Fragment, useContext  } from "react";
 import { Typography } from '@mui/material';
 import { Box, Stack } from '@mui/system';
 import MonthlyTask from "../../Task/TaskMonthly/MonthlyTask";
-
-let daysAM = [];
-let daysEN = ["SUN", "MON", "TEU", "WED", "THU", "FRI", "SAT"]
+import { WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
+import CalanderContext from "../../../Store/calander-store";
 
 export default function MonthlyCalander() {
 
+    let context = useContext(CalanderContext);
+    
+    let weekdays = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH ;
+    
+   
     return (
         <Fragment>
             <Stack display="flex" height="fit-content" flexDirection="row">
-                {daysEN.map((day) => {
+                {weekdays.map((day) => {
                     return (
                         <Box
+                            key={day}
                             sx={{
                                 px: 2,
                                 display: "flex",

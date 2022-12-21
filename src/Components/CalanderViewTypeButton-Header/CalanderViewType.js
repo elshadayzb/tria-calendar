@@ -14,12 +14,9 @@ let viewOptions = ["Day","Week","Month","Year","Schedule","4 Days"];
 
 export default function CalanderViewType() {
 
-  let context = useContext(CalanderContext);
-
+  const context = useContext(CalanderContext);
   const [anchorEl, setAnchorEl] =  useState(null);
   
-
-
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -28,10 +25,10 @@ export default function CalanderViewType() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleViewChange = (event) => {
-    console.log(event);
+  const handleViewChange = (option) => {
+    console.log(option);
     handleClose();
-    context.changeView(event);
+    context.setPickerOption(option)
   };
   
 
@@ -39,7 +36,6 @@ export default function CalanderViewType() {
 
 
 
-  console.log(` the view type is ${context.viewSelected.viewType}`);
   return (
     <div>
         <Button
@@ -64,7 +60,7 @@ export default function CalanderViewType() {
         "&:active": { bgcolor: "hsla(228, 12%, 48%, 0.968)" },
       }}
       >
-       {context.viewSelected.viewType}
+        {context.pickerOption}
       </Button>
       <Menu
         id="basic-menu"
@@ -77,9 +73,9 @@ export default function CalanderViewType() {
       >
        
         {
-            viewOptions.map((elm) => {
+            viewOptions.map((option) => {
               return (
-                <MenuItem id={elm} key={elm} sx={{minWidth:"15em"}} onClick={handleViewChange.bind(this,elm)}>
+                <MenuItem id={option} key={option} sx={{minWidth:"15em"}} onClick={handleViewChange.bind(this,option.toLocaleLowerCase())}>
                 <Stack
                     sx={{
                         display:'flex',
@@ -91,10 +87,10 @@ export default function CalanderViewType() {
                  >
     
                     <Typography>
-                        {elm}
+                        {option}
                     </Typography>
                     <Typography>
-                        {elm[0]}
+                        {option[0]}
                     </Typography>
     
                 </Stack>

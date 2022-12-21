@@ -1,77 +1,27 @@
-import { createContext, useReducer } from "react";
-
-//*// functions for reducers and others 
-
-function viewChangeReducer(state,action)
-{
-    console.log(` an action change was called to ${action}`);
-    switch(action)
-    {
-        
-        case "Day":
-            return {viewType: "Day"} 
-        case "Week":
-            return {viewType: "Week"}
-        case "Month":
-            return {viewType: "Month"}
-        case "Year":
-            return {viewType: "Year"}
-        default :
-            return {viewType: "Month"}
-    }
-
-}
-
-
-
-
-
-
+import { createContext} from "react";
 
 
 const CalanderContext =  createContext({
-    viewSelected : {},
-    changeView : () => {},
-    getToday : () => {},
-    getNext : () => {},
-    getNextMonth: () => {},
-    getNextWeek : () => {},
+    isGregorian: true,
+    setIsGregorian: () => {},
+    monthIndex: 11,
+    setMonthIndex: (index)=>{},
+    yearIndex: 2022,
+    setYearIndex: (year)=>{},
+    monthSideIndex: 11,
+    setMonthSideIndex: (index)=>{},
+    yearSideIndex: 2022,
+    setYearSideIndex: (year)=>{},
+    selectedDate: null,
+    setSelectedDate: (dayObj) => {},
+    pickerOption: "month",
+    setPickerOption: (picker)=>{},
+    selectedWeek: null,
+    setSelectedWeek: (week)=>{}
     
 })
 
 
-export function CalanderContextProvider(props)
-{
-
-    let [viewSelected,dispatchViewChange] = useReducer(viewChangeReducer,{viewType : "Month"})
-
-
-
-    const changeViewSelected = (viewType) => 
-    {
-        console.log(`callaed to change view ${viewType}`);
-        dispatchViewChange(viewType);
-    }
-
-
-
-
-   
-
-
-
-    return (
-        <CalanderContext.Provider
-         value={{
-           viewSelected : viewSelected,
-           changeView : changeViewSelected,
-
-         }}
-        >{
-                props.children
-            }</CalanderContext.Provider>
-    );
-}  
 
 
 export default CalanderContext;

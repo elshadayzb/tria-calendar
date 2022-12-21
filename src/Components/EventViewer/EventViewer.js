@@ -1,4 +1,4 @@
-import {   Button, Grid} from '@mui/material';
+import {Grid} from '@mui/material';
 import { useContext } from 'react';
 import CalanderContext from '../../Store/calander-store';
 import DailyCalander from '../Calander/CalanderDaily/DailyCalander';
@@ -14,20 +14,20 @@ export default function EventViewer()
 
    return(
      <Grid xs={9.2} display="flex" 
-      flexDirection={(context.viewSelected.viewType === "Month") ? "column" : "row"}  
+         
+         flexDirection={(context.pickerOption === "month") ? "column" : "row"}  
+         
          container item overflow="auto" sx={{  height:"89.3vh"}}>
     
 
-      { context.viewSelected.viewType === "Day" && <DailyCalander /> }
+      { context.pickerOption === "day" && <DailyCalander /> }
       
-      { context.viewSelected.viewType === "Week" && <WeeklyCalander /> }
+      { context.pickerOption === "week" && <WeeklyCalander /> }
       
-      { context.viewSelected.viewType === "Month" && <MonthlyCalander /> }
+      { context.pickerOption === "month" && <MonthlyCalander /> }
       
 
-    {/*  <WeeklyCalander />   works when parent view is in row mode  */}
-
-     {/*   <MonthlyCalander />   works when parent view is in column mode  */}
+    
 
 
     </Grid>

@@ -1,71 +1,66 @@
 import { Button } from "@mui/material";
-import { Fragment, useState } from "react";
+import { useContext } from "react";
+import CalanderContext from "../../../Store/calander-store";
 
 let btnStyles = {
-    active : {bgcolor : "hsl(216, 88%, 91%)" , color : "hsl(0, 0%, 96%)"},
-    selected : {bgcolor : "hsl(216, 88%, 91%)" , color : "hsl(0, 0%, 96%)"},
+    default : {color:"inherit" , bgcolor:""},
+    active : {bgcolor : " hsl(214, 82%, 51%)" , color : "hsl(0, 0%, 96%)"},
+    selected : {bgcolor : "hsl(216, 88%, 91%)" , color : "hsl(214, 82%, 51%)"},
     hoverDefault : { color: "inherit" ,bgcolor: "#e8eaed" },
-    hoverActive : { color: "hsl(0, 0%, 96%)",bgcolor:  "#1a73e8" }
-
+    hoverActive : { color: "hsl(212, 100%, 50%)",bgcolor:  "hsl(215, 63%, 82%)" }
 }
 
-
-
-function Styler(props)
+function DayStyler(isGregorian,monthIndex,yearIndex,selectedDate,day)
 {
-    let today = new Date(Date.now());
+    const currentDate = new Date();
+    const etMonth = monthIndex > 7 ? (monthIndex - 8) : (monthIndex + 4)
+    const etYear = monthIndex > 7 ? (yearIndex - 7) : (yearIndex - 8)
     
-    
-    if(props.content === today.getDate())
-    {
-        return {bgcolor : "hsl(216, 88%, 91%)" , color : "hsl(0, 0%, 96%)"}
-    }
-    else if(props.content !== props.selectedDay)
-    {
-        return {bgcolor : "hsl(216, 87%, 91%)" , color : "hsl(214, 82%, 51%)"}
-    }
-   
+    if(isGregorian && (currentDate.getDate() === day.day) && 
+            (currentDate.getMonth() === day.dayMonth) && 
+                (currentDate.getFullYear() === day.dayYear)){
+                    return btnStyles.active
 
+            }
+        else if(!isGregorian && (currentDate.getDate() === day.day) && 
+                (etMonth === day.dayMonth) && 
+                     (etYear === day.dayYear)){
+                        return btnStyles.active
+        }
+        else if(day.dayMonth === selectedDate.selectedMonth 
+                && day.dayYear === selectedDate.selectedYear && day.day === selectedDate.selectedDay){
+                return btnStyles.selected
+
+        }else{
+            return btnStyles.default;
+             }      
 }
 
 
 export default function CalanderSideDay(props)
 {
-    let [clicked , setClicked] = useState(null);
-    let [active , setActive] = useState(false);
-    let [inactiveMonth,setInActiveMonth] = useState(false); 
-
-    let setState = (event) => {
-
-        setActive((prevState) => {
-            return  (prevState) ? true : false;
-        })
-
-        props.setSelectedDay((prevState) => {return props.content})
-
-    }
-
-
     
+    const context = useContext(CalanderContext);
+   // conts style = DayStyler({context});
 
     return(
         
-        <Button key={props.Ukey} onClick={setState}
-            sx={{
+        <Button key={props.Ukey} onClick={props.dayClicked.bind(this,props.day)}
+            disableRipple={false}    
+            sx={{    
                 fontSize: 'inherit',
                 fontFamily: 'inherit',
                 fontWeight: 'inherit',
-                color: (props.content === props.selectedDay) ?  "hsl(0, 0%, 96%)" : "inherit" ,
-                bgcolor : (props.content === props.selectedDay) ? "hsl(214, 82%, 51%)" : "" ,
+                ...DayStyler(context.isGregorian,context.monthIndex,context.yearIndex,context.selectedDate,props.day),
                 px: 0, py: 0,
                 borderRadius: "50%", minHeight: { xs: 24 },
                 minWidth: { xs: 24 }, margin: 0,
-                '&:hover': (props.content !== props.selectedDay) ? btnStyles.hoverDefault : btnStyles.hoverActive 
+                '&:hover': (props.day.day !== context.selectedDate.selectedDay) ? btnStyles.hoverDefault : btnStyles.hoverActive 
                 
             }} >
-                
-                {props.content}
+                {props.day.day}
             </Button>
         
     );
 }
+

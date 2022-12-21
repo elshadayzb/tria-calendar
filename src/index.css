@@ -6,7 +6,7 @@
 -Darkcyan: hsla(0, 0%, 40%, 0.849);
 -color: hsl(128, 97%, 43%);
 
--color--btnActive: #1a73e8;
+-color--btnActive: hsl(214, 82%, 51%);
 -color--btntextActive: hsl(0, 0%, 96%);
 
 -color--btnHover: #3c4043;
@@ -16,6 +16,8 @@
 
 --shadow1: 5px 5px 20px hsla(0, 1%, 36%, 0.842);
 
+--color--1: hsl(212, 100%, 50%); 
+--background-color--1:  hsl(215, 63%, 82%);
 
 
 }

@@ -1,6 +1,4 @@
 import {
-  ChevronLeftOutlined,
-  ChevronRightOutlined,
   MenuRounded,
 } from "@mui/icons-material";
 import {
@@ -15,6 +13,7 @@ import {
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { Fragment } from "react";
+import CalanderHeader from "../Calander-Header/Calander-Header";
 import CalanderViewType from "../CalanderViewTypeButton-Header/CalanderViewType";
 
 export default function HeaderBar() {
@@ -85,48 +84,10 @@ export default function HeaderBar() {
                   alignItems: "center",
                 }}
               >
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderColor: "hsl(0, 0%, 52%)",
-                    borderStyle: "solid",
-                    borderBlockWidth: 1,
-                    color: "inherit",
-                    py: 0.8,
-                    "&:hover": {
-                      borderColor: "hsl(0, 0%, 52%)",
-                      borderStyle: "solid",
-                      borderBlockWidth: 1,
-                      color: "inherit",
-                    },
-                    "&:active": { bgcolor: "hsla(228, 12%, 48%, 0.968)" },
-                  }}
-                >
-                  Today
-                </Button>
-                <Stack direction="row" spacing={1} sx={{ p: 0, mx: 4 }}>
-                  <IconButton sx={{ height: 35, width: 35 }}>
-                    {" "}
-                    <ChevronLeftOutlined sx={{ fontSize: "150%" }} />{" "}
-                  </IconButton>
-                  <IconButton sx={{ height: 35, width: 35 }}>
-                    {" "}
-                    <ChevronRightOutlined sx={{ fontSize: "150%" }} />{" "}
-                  </IconButton>
-                </Stack>
-                <Typography
-                  sx={{
-                    color: "inherit",
-                    minWidth: { xs: 13, sm: 13, md: "12%", lg: 13, xl: 13 },
-                    p: 0,
-                    textAlign: "center",
-                    fontSize: "165%",
-                    fontFamily: "Montserrat",
-                    fontWeight: "500",
-                  }}
-                >
-                  December 2022
-                </Typography>
+               
+                
+               <CalanderHeader />
+
               </Container>
             </Stack>
 

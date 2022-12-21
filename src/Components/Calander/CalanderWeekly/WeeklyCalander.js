@@ -1,42 +1,25 @@
-import {
-    ChevronLeftOutlined,
-    ChevronRightOutlined,
-    MenuRounded,
-  } from "@mui/icons-material";
   import {
     AppBar,
     Typography,
     Box,
     Toolbar,
-    IconButton,
-    Button,
-    Container,
-    SvgIcon,
     Grid,
   } from "@mui/material";
   import { Stack } from "@mui/system";
-import { Fragment } from "react";
-
-function rangerGenerator(start, limit) {
-    let i = start;
-    let ar = [];
-    while (i <= limit) ar.push(i++);
-    return ar;
-  }
-
-
-
-
-
-let hours = rangerGenerator(1,24);
-let daysEN = ["SUN", "MON", "TEU", "WED", "THU", "FRI", "SAT"];
-let dayNUMS= [25,26,27,28,29,30,31];
+import { Fragment , useContext } from "react";
+import { WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
+import CalanderContext from "../../../Store/calander-store";
 
 
 
 export default function WeeklyCalander()
 {
 
+
+
+    let context = useContext(CalanderContext);
+    
+    let weekdays = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH ;
 
     return(
             <Fragment >
@@ -208,6 +191,8 @@ export default function WeeklyCalander()
                     );
                 })}
             </Stack>
+
+
           </Toolbar>
          </AppBar>   
 

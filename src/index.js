@@ -31,7 +31,7 @@ import "@fontsource/roboto/900.css"
  import "@fontsource/quicksand/500.css"
  import "@fontsource/quicksand/600.css"
  import "@fontsource/quicksand/700.css"
-import { CalanderContextProvider } from './Store/calander-store';
+import { CalanderContextProvider } from './Store/calander-provider';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

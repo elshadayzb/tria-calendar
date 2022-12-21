@@ -1,75 +1,88 @@
 import { FiberManualRecord } from "@mui/icons-material";
 import { Button, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import { Fragment } from "react";
-
-function rangerGenerator(start, limit) {
-  let i = start;
-  let ar = [];
-  while (i <= limit) ar.push(i++);
-  return ar;
-}
-
-let j = rangerGenerator(0, 5);
-let i = rangerGenerator(1, 7);
-let counter = 0;
+import { Fragment,useContext , useState , useEffect } from "react";
+import { getMonthDaysGreg , getMonthDaysEthiopic } from "../../../Util/CalanderFunction";
+import CalanderContext from "../../../Store/calander-store";
+import CalanderSideDay from '../../UI/Button/Calander-Side_Days';
 
 export default function MonthlyTask(props) {
-  console.log(j.length);
+
+  let context = useContext(CalanderContext);
+  
+  const [monthDays, setMonthDays] = useState(getMonthDaysGreg(context.monthIndex, context.yearIndex)) 
+  
+  useEffect(()=>{
+      setMonthDays(context.isGregorian? getMonthDaysGreg(context.monthIndex, context.yearIndex) :
+       getMonthDaysEthiopic(context.monthIndex, context.yearIndex));
+     }, [context.monthIndex, context.yearIndex, context.isGregorian])
+
+
+
+
+  const dayClickHandler = (day) => {
+      context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, 
+                      selectedYear: day.dayYear, selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay});
+      context.setPickerOption("day");
+  }
+
   return (
     <Fragment>
-      {j.map((elm1) => {
+      {monthDays.map((row,weekidx) => {
         return (
           //"15.885%":"19%"
           <Stack
-            key={elm1}
+            key={weekidx}
             display="flex"
             height="fit-content"
             overflow="hidden"
             flexDirection="row"
-            sx={{ minHeight: j.length === 6 ? "15.885%" : "19%" }}
+            sx={{
+                   minHeight: monthDays.length === 6 ? "15.885%" : "19%",
+               
+          }}
           >
-            {i.map((elm) => {
+            {row.map((day,dayidx) => {
               
               return (
                 <Box
+                  key={dayidx}
                   sx={{
                     p: 0,
                     display: "flex",
                     flexDirection: "column",
-                    justifyItems: "stretch",
+                    alignItems: "center",
                     flexGrow: 1,
                     flexShrink: 1,
                     flexBasis: "0%",
                     borderColor: "hsla(0, 1%, 74%, 0.542)",
-                    borderWidth: 1,
-                    borderTopWidth: 0,
-                    borderBottomWidth:0,
-                    borderRightWidth: elm === 7 ? 1 : 0,
                     borderStyle: "solid",
+                    borderWidth: 1,
+                    borderTopWidth: weekidx !== 0  ? 1 : 0,
+                    borderBottomWidth: 0,
+                    borderRightWidth: dayidx === 6 ? 1 : 0,
                     height: { xs: "100%" },
-                    width: { xs : 4},
-                    overflow: "hidden"
-                    
+                    width: { xs : "100%"},
+                    overflow: "hidden",
+                    fontFamily:'Montserrat',
+                    fontWeight:'400',
+                    fontSize:{ xs: "90%" },
                   }}
                 >
-                  <Typography
-                    width="100%"
-                    height="fit-content"
-                    sx={{
-                      p: { xs: 0.5 },
-                      color: "hsla(0, 2%, 11%, 0.819)",
-                      textAlign: "center",
-                      fontSize: "90%",
-                      fontFamily: "Montserrat",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {elm + elm1 *7 }
-                  </Typography>
+
+                  <CalanderSideDay  dayClicked={dayClickHandler} 
+                                                
+                                                day={day} />
+
+                 
+
                   
-                  {(elm % 2 > 0 && elm1 % 2 > 0 ) ? <> </> :  <Box  textOverflow="clip"
-                    sx={{px:1,display:"flex" ,flexDirection:"column",width:{xs:"100%"},height:"100%", overflow:"hidden"}}
+                  
+                  {(dayidx % 2 > 0 && weekidx % 2 > 0 ) ? <> </> : 
+                  
+                  <Box  textOverflow="clip"
+                 
+                    sx={{pt:3, px:1,display:"flex" , flexDirection:"column",width:{xs:"100%"},height:"100%", overflow:"hidden"}}
                   >
                   <Button
                   startIcon={<FiberManualRecord sx={{ color:"#1a73e8", width:"0.8em" , height:"2em"}} />} 
@@ -90,8 +103,6 @@ export default function MonthlyTask(props) {
                   </Box>
 }
 
-
-                    
                 </Box>
               );
             })}
