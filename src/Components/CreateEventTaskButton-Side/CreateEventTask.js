@@ -4,17 +4,24 @@ import MenuItem from "@mui/material/MenuItem";
 import { AddRounded, ArrowDropDown, KeyboardArrowDown } from "@mui/icons-material";
 import { Stack } from "@mui/system";
 import { Typography } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import CalanderContext from "../../Store/calander-store";
 
 
 
-let viewOptions = ["Event","Task"];
-
+let optionsEN = ["Event","Task"];
+let optionsAM = ["ሁነት" , "ተግባር"]
 
 export default function CreateEventTask() {
 
+
+  let context = useContext(CalanderContext);
+
   const [anchorEl, setAnchorEl] =  useState(null);
   const [selectedViewOption , setSelectedViewOption] = useState("Month");
+
+
+
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -59,7 +66,7 @@ export default function CreateEventTask() {
         
       }}
       >
-        Create
+        {context.isGregorian ? `Create` : `ፍጠር `}
       </Button>
       <Menu
         anchorOrigin={{
@@ -80,9 +87,9 @@ export default function CreateEventTask() {
       >
        
         {
-            viewOptions.map((elm) => {
+            optionsAM.map((option,optionidx) => {
               return (
-                <MenuItem id={elm} key={elm} sx={{minWidth:"11em"}} onClick={handleSelection.bind(this,elm)}>
+                <MenuItem id={option} key={option} sx={{minWidth:"11em"}} onClick={handleSelection.bind(this,option)}>
                 <Stack
                     sx={{
                         display:'flex',
@@ -94,10 +101,10 @@ export default function CreateEventTask() {
                  >
     
                     <Typography>
-                        {elm}
+                        {context.isGregorian ? optionsEN[optionidx] : optionsAM[optionidx]}
                     </Typography>
                     <Typography>
-                        {elm[0]}
+                    {context.isGregorian ? optionsEN[optionidx][0] : optionsAM[optionidx][0]}
                     </Typography>
     
                 </Stack>

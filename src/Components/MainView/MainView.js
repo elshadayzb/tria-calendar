@@ -8,7 +8,7 @@ import SideBar from '../SideBar/SideBar';
 export default function MainView()
 {
     return (
-    <Grid container pt={1.6} display='flex' flexDirection='row' >
+    <Grid container pt={1.6}  >
             <SideBar />
             <EventViewer />
        

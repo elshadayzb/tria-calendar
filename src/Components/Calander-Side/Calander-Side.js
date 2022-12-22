@@ -13,27 +13,13 @@ export default function CalanderSide() {
 
     let context = useContext(CalanderContext);
 
-
-    
-
-
-
-
-
     const [monthDays, setMonthDays] = useState(getMonthDaysGreg(context.monthSideIndex, context.yearSideIndex))
     
-    
-    
-
-
-
     let weekdaynames = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH;
 
     let monthName = context.isGregorian ? MONTHSGREG[context.monthSideIndex]: MONTHSETH[context.monthSideIndex > 7 ? (context.monthSideIndex - 8) : 
         (context.monthSideIndex + 4)];
     let year = context.isGregorian ? context.yearSideIndex : (context.monthSideIndex > 7 ? (context.yearSideIndex - 7) : (context.yearSideIndex - 8));
-
-
 
     
     useEffect(()=>{
@@ -94,7 +80,6 @@ export default function CalanderSide() {
                         pb: { xs: 1 },
                         minWidth: "248px",
                         maxWidth: "248px",
-                        /* bgcolor: { xs: 'hsl(48, 61%, 47%)', sm: 'rgb(95, 195, 168)', md: 'rgb(204, 144, 75)', lg: 'rgb(140, 79, 164)', xl: 'hsl(48, 61%, 47%)' } */
                     }
                 } overflow='hidden' >
 
@@ -122,7 +107,7 @@ export default function CalanderSide() {
                         
                         weekdaynames.map(day => {
                             return (
-                                <Typography key={Math.random()} sx={{ minWidth: { xs: 24 }, textAlign: 'center', fontSize: 'inherit', color:'inherit' , fontFamily: 'inherit', fontWeight: 'inherit' }}>{day}</Typography>
+                                <Typography key={Math.random()} sx={{ minWidth: { xs: 24 }, textAlign: 'center', fontSize: 'inherit', color:'inherit' , fontFamily: 'inherit', fontWeight: 'inherit' }}>{day[0]}</Typography>
                             );
                         })
                     }
@@ -147,7 +132,7 @@ export default function CalanderSide() {
                                                 dayClicked={dayClickHandler} 
                                                 key={dayidx}
                                                 day={day}
-                                                
+                                                isSide={true}
                                                 />
                                             );
 

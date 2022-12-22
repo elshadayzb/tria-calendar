@@ -1,3 +1,5 @@
+import { MONTHSGREGDAYS, MONTHSETHDAYS, MONTHSGREG, MONTHSETH, MONTHSGREGSHORT, MONTHSETHSHORT } from "./CalanderConstants";
+
 export const getMonthDaysGreg = (month, year) =>{
     const firstDayOfMonth = new Date(year, month, 1).getDay()
     let currentDay = 0 - firstDayOfMonth
@@ -18,7 +20,6 @@ export const getMonthDaysGreg = (month, year) =>{
 }
 
 export const getMonthDaysEthiopic = (month, year) =>{
-    //console.log("gregmonth: ", month, "gregyear: ", year)
     month = month > 7 ? (month - 8) : (month + 4)
     year = month > 7 ? (year - 8) : (year - 7)
     //console.log("etmonth: ", month, "etyear: ", year)
@@ -62,3 +63,32 @@ export const getSelectedWeekGreg = ({selectedDay, selectedMonth, selectedYear})=
     }
     
 }
+
+
+export const getGregMonthDaysCount = (month, year) => {
+    if(month !== 1){
+         return MONTHSGREGDAYS[month]
+    }else{
+        return ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) ? 29 : 28       
+    }
+}
+
+export const getETYear = (month, year) => {
+    return month > 7 ? (year- 7) : (year- 8)
+}
+
+export const getETMonth = (month) => {
+    return month > 7 ? (month - 8) : (month + 4)
+}
+
+export const getMonthName = (isGregorian, month) => {
+    const etMonth = month > 7 ? (month- 8) : (month + 4)
+    return isGregorian ? MONTHSGREG[month] : MONTHSETH[etMonth]
+}
+
+export const getShortMonthName = (isGregorian, month) => {
+    const etMonth = month > 7 ? (month - 8) : (month + 4)
+    return isGregorian ? MONTHSGREGSHORT[month] : MONTHSETHSHORT[etMonth]
+    
+}
+

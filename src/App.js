@@ -11,7 +11,7 @@ function App() {
    
     
       <Fragment>
-         <Stack>
+         <Stack >
             <HeaderBar />
             <MainView />
         </Stack>

@@ -91,13 +91,13 @@ export default function MonthlyTask(props) {
                   sx={{
                     color: "hsla(0, 2%, 11%, 0.819)",
                     textAlign: "center",
-                    fontSize: "80%",
+                    fontSize: "70%",
                     fontFamily: "Montserrat",
                     fontWeight: "600",
                     textOverflow:"clip",
                     textTransform : "capitalize",
                    width:"100%" ,height:5,py:1.2  } }>
-                            Lorem ipsum 
+                            10 : 15 PM Daily Metting
                   </Button> 
 
                   </Box>

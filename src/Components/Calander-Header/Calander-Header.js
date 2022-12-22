@@ -34,7 +34,14 @@ const getMonthDaysCount = (month, year) => {
 }
 
 const prevMonthHandler = ()=>{
-    if(pickerOption === 'month'){
+    if(pickerOption === 'year'){
+        weekYear = yearIndex - 1
+        setYearIndex(curYear => curYear - 1)
+        const weekDay = new Date(weekYear, selectedMonth, 1).getDay()
+        setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: weekYear, selectedDayIndex: selectedDay, 
+                         selectedWeekDay: weekDay }) 
+    }
+    else if(pickerOption === 'month'){
         if(monthIndex === 0){    
            setMonthIndex(11)
            setYearIndex(curYear => curYear - 1)
@@ -100,7 +107,14 @@ const prevMonthHandler = ()=>{
 }
 const nextMonthHandler = ()=>{
     console.log("month Index: ", monthIndex, " year Index: ", yearIndex)
-    if (pickerOption === 'month'){
+    if(pickerOption === 'year'){
+        weekYear = yearIndex + 1
+        setYearIndex(curYear => curYear + 1)
+        const weekDay = new Date(weekYear, selectedMonth, 1).getDay()
+        setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: weekYear, selectedDayIndex: selectedDay, 
+                         selectedWeekDay: weekDay }) 
+    }
+    else if (pickerOption === 'month'){
         if(monthIndex === 11){
             setMonthIndex(0)
             setYearIndex(curYear => curYear + 1)  
@@ -207,11 +221,15 @@ const getHeaderTitle = () => {
                                 (selectedDate.selectedYear - 7) : (selectedDate.selectedYear - 8))
         return `${monthTitle} ${selectedDate.selectedDay}, ${yearTitle}`
     }
+    else if(pickerOption === 'year'){
+        yearTitle = isGregorian ? yearIndex : (monthIndex > 7 ? (yearIndex - 7) : (yearIndex - 8))
+        return `${yearTitle}`
+    }
 }
 
     return (
 
-        <Fragment>
+        <Fragment >
 
             <Button
                   variant="outlined"
@@ -222,6 +240,8 @@ const getHeaderTitle = () => {
                     borderStyle: "solid",
                     borderBlockWidth: 1,
                     color: "inherit",
+                    minWidth: { xs: "10ch"},
+                    maxWidth: { xs: "10ch" },
                     py: 0.8,
                     "&:hover": {
                       borderColor: "hsl(0, 0%, 52%)",
@@ -232,11 +252,11 @@ const getHeaderTitle = () => {
                     "&:active": { bgcolor: "hsla(228, 12%, 48%, 0.968)" },
                   }}
                 >
-                  Today
+                  {isGregorian ? "Today" : "ዛሬ"}
                 </Button>
 
 
-            <Stack direction="row" spacing={1} sx={{ p: 0, mx: 4 }}>
+            <Stack direction="row" spacing={1} sx={{ p: 0, ml: 3 }}>
                   <IconButton sx={{ height: 35, width: 35 }} onClick={prevMonthHandler}>
                     <ChevronLeftOutlined sx={{ fontSize: "150%" }} />
                   </IconButton>
@@ -248,9 +268,10 @@ const getHeaderTitle = () => {
             <Typography
                   sx={{
                     color: "inherit",
-                    minWidth: { xs: 13, sm: 13, md: "12%", lg: 13, xl: 13 },
-                    p: 0,
-                    textAlign: "center",
+                    minWidth: { xs: "17ch"},
+                    maxWidth: { xs: "17ch" },
+                    pl: 2,
+                    textAlign: "left",
                     fontSize: "165%",
                     fontFamily: "Montserrat",
                     fontWeight: "500",

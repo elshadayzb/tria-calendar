@@ -10,13 +10,18 @@ import {
   Button,
   Container,
   SvgIcon,
+  Switch,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import CalanderContext from "../../Store/calander-store";
 import CalanderHeader from "../Calander-Header/Calander-Header";
 import CalanderViewType from "../CalanderViewTypeButton-Header/CalanderViewType";
 
 export default function HeaderBar() {
+
+  const context = useContext(CalanderContext);
+
   return (
     <Fragment>
       <Box sx={{ flexGrow: 1 }}>
@@ -40,6 +45,7 @@ export default function HeaderBar() {
               minHeight: { xs: 70 },
               mx: { xs: 0 },
               px: { xs: 2 },
+             
             }}
           >
             <Stack
@@ -59,9 +65,10 @@ export default function HeaderBar() {
                   style={{ fontSize: "100%", color: "rgb(95,99,104)" }}
                 />
               </IconButton>
-              <SvgIcon color="success" sx={{ fontSize: 40 }}>
+              
+              {/* <SvgIcon color="success" sx={{ fontSize: 40 }}>
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-              </SvgIcon>
+              </SvgIcon> */}
               <Typography
                 sx={{
                   letterSpacing: 0.8,
@@ -70,9 +77,11 @@ export default function HeaderBar() {
                   fontSize: "150%",
                   fontFamily: "Montserrat",
                   fontWeight: "500",
+                  minWidth: { xs: "12ch"},
+                    maxWidth: { xs: "12ch" }
                 }}
               >
-                Calender
+                { context.isGregorian ?  `Calender` : `የቀን መቁጠሪያ` }  
               </Typography>
 
               <Container
@@ -90,6 +99,25 @@ export default function HeaderBar() {
 
               </Container>
             </Stack>
+             
+
+            <Stack direction="row" spacing={1} alignItems="center" >
+                <p style={{borderBottom: !context.isGregorian ? "3px solid #28f" : ""}}>ኢት</p>
+                <Switch
+                    checked={context.isGregorian} 
+                    onChange={() =>context.setIsGregorian(prevState => !prevState)}
+                    sx={{
+                        '& .MuiSwitch-switchBase + .MuiSwitch-track' :{
+                            backgroundColor: "#28f"},
+                      '& .MuiSwitch-switchBase' :{
+                            color: "#28f"},     	    
+                        }}	/>
+                <p style={{borderBottom: context.isGregorian ? "3px solid #28f" : ""}}>Gr</p>
+            </Stack>    
+
+
+
+
 
             <CalanderViewType />
           </Toolbar>

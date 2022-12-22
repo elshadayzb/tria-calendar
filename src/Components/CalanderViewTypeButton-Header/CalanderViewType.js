@@ -6,10 +6,11 @@ import { Stack } from "@mui/system";
 import { Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import CalanderContext from "../../Store/calander-store";
+import { VIEWOPTIONSAMH, VIEWOPTIONSEN } from "../../Util/CalanderConstants";
 
 
 
-let viewOptions = ["Day","Week","Month","Year","Schedule","4 Days"];
+
 
 
 export default function CalanderViewType() {
@@ -31,11 +32,6 @@ export default function CalanderViewType() {
     context.setPickerOption(option)
   };
   
-
-
-
-
-
   return (
     <div>
         <Button
@@ -50,6 +46,8 @@ export default function CalanderViewType() {
         borderStyle: "solid",
         borderBlockWidth: 1,
         color: '#3c4043',
+        minWidth:{xs : "15ch"},
+        maxWidth:{xs : "15ch"},
         py: 0.8,
         "&:hover": {
           borderColor: "hsl(0, 0%, 52%)",
@@ -60,7 +58,8 @@ export default function CalanderViewType() {
         "&:active": { bgcolor: "hsla(228, 12%, 48%, 0.968)" },
       }}
       >
-        {context.pickerOption}
+        { context.isGregorian ? context.pickerOption : 
+        VIEWOPTIONSAMH[VIEWOPTIONSEN.indexOf(context.pickerOption.charAt(0).toUpperCase() + context.pickerOption.slice(1))]}
       </Button>
       <Menu
         id="basic-menu"
@@ -73,7 +72,7 @@ export default function CalanderViewType() {
       >
        
         {
-            viewOptions.map((option) => {
+            VIEWOPTIONSEN.map((option,optionidx) => {
               return (
                 <MenuItem id={option} key={option} sx={{minWidth:"15em"}} onClick={handleViewChange.bind(this,option.toLocaleLowerCase())}>
                 <Stack
@@ -87,10 +86,10 @@ export default function CalanderViewType() {
                  >
     
                     <Typography>
-                        {option}
+                        { context.isGregorian ? VIEWOPTIONSEN[optionidx] : VIEWOPTIONSAMH[optionidx]}
                     </Typography>
                     <Typography>
-                        {option[0]}
+                        {context.isGregorian ? VIEWOPTIONSEN[optionidx][0] : VIEWOPTIONSAMH[optionidx][0]}
                     </Typography>
     
                 </Stack>

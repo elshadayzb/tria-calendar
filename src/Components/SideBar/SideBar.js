@@ -9,7 +9,7 @@ export default function  SideBar()
     return (
        
 
-        <Grid  xs={2.2} item>
+        <Grid  xs={2.2}   item>
             
                <CreateEventTask />
                <CalanderSide />
