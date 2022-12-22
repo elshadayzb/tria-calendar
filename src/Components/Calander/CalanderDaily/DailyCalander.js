@@ -7,27 +7,21 @@
     Grid,
   } from "@mui/material";
   import { Stack } from "@mui/system";
-import { Fragment } from "react";
-
-function rangerGenerator(start, limit) {
-    let i = start;
-    let ar = [];
-    while (i <= limit) ar.push(i++);
-    return ar;
-  }
-
-
-
-
-
-let hours = rangerGenerator(1,24);
-let daysEN = ["SUN"];
-let dayNUMS= [25];
-
-
+  import { Fragment , useContext} from "react";
+  import { HOURS, WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
+  import CalanderContext from "../../../Store/calander-store";
+  import CalanderSideDay from "../../UI/Button/Calander-Side_Days";
 
 export default function DailyCalander()
 {
+
+    const context = useContext(CalanderContext);
+    let weekdays = context.isGregorian ? WEEKDAYSGREG : WEEKDAYSETH;
+    
+
+
+
+
 
 
     return(
@@ -49,9 +43,7 @@ export default function DailyCalander()
            <Stack display="flex" 
             flexGrow={1} 
             ml="7%" height="fit-content" flexDirection="row">
-                {daysEN.map((day) => {
-                    return (
-                        <Box
+                 <Box
                             sx={{
                                 px: 2,
                                 display: "flex",
@@ -68,7 +60,8 @@ export default function DailyCalander()
                             <Typography
                                 width="100%"
                                 sx={{
-                                    p: { xs: 0.5 },
+                                    p:{xs:0.5},
+                                    pl: { xs: 1 },
                                     color: "hsla(228, 12%, 48%, 0.868)",
                                     textAlign: "left",
                                     fontSize: "75%",
@@ -76,49 +69,39 @@ export default function DailyCalander()
                                     fontWeight: "500",
                                 }}
                             >
-                                {day}
+                                {weekdays[context.selectedDate.selectedWeekDay]}
                             </Typography>
                         </Box>
-                    );
-                })}
             </Stack>
 
 
             <Stack display="flex" 
                flexGrow={1} ml="7%"  height="fit-content" flexDirection="row">
-                {dayNUMS.map((day) => {
-                    return (
-                        <Box
-                            sx={{
-                                px: 2,
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyItems: "stretch",
-                                flexGrow: 1,
-                                flexShrink: 1,
-                                flexBasis: "0%",
-                                height: { xs: "100%" },
+                      <Box
+                        sx={{
+                            px: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems:"start",
+                            flexGrow: 1,
+                            flexShrink: 1,
+                            flexBasis: "0%",
+                            height: { xs: "100%" },
+                            color: "hsla(228, 12%, 48%, 0.868)",
+                            textAlign: "center",
+                            fontSize: "150%",
+                            fontFamily: "Montserrat",
+                            fontWeight: "500",
+                            overflow: "hidden",
+                          
+                        }}
+                    >
 
-                                overflow: "hidden",
-                              
-                            }}
-                        >
-                            <Typography
-                                width="100%"
-                                sx={{
-                                    p: { xs: 0.5 },
-                                    color: "hsla(228, 12%, 48%, 0.868)",
-                                    textAlign: "left",
-                                    fontSize: "150%",
-                                    fontFamily: "Montserrat",
-                                    fontWeight: "500",
-                                }}
-                            >
-                                {day}
-                            </Typography>
-                        </Box>
-                    );
-                })}
+
+                <CalanderSideDay  px={1}  day={context.selectedDate} />
+
+
+                    </Box>
             </Stack>
 
 
@@ -161,9 +144,8 @@ export default function DailyCalander()
                     borderStyle: "solid",
                 }} />
                     
-                {daysEN.map((day) => {
-                    return (
-                        <Box
+                    <Box
+                            
                             sx={{
                                 px: 1,
                                 py:0.5,
@@ -177,7 +159,6 @@ export default function DailyCalander()
                                 borderWidth:0,
                                 borderLeftWidth:1,
                                 borderBottomWidth:1,
-                                borderRightWidth: day === "SAT" ? 1 : 0,
                                 borderStyle: "solid",
                                 overflow: "hidden",
                                 
@@ -197,23 +178,23 @@ export default function DailyCalander()
                                {/* inset the task to be be displayed at  */}
                             </Typography>
                         </Box>
-                    );
-                })}
             </Stack>
           </Toolbar>
          </AppBar>   
 
 
-        <Grid display="flex" flexDirection="column" 
+         <Grid display="flex" flexDirection="column" 
           justifyContent="stretch" justifyItems="stretch"
          flexGrow={1}  height="100%"  >
 
         {
-            hours.map((hour) => {
+            HOURS.map((hour) => {
                 return(
                        
                     
-                    <Stack display="flex" 
+                    <Stack 
+                    key={hour}
+                    display="flex" 
                     flexGrow={0}  mt={0} flexDirection="row"
                     sx={{ height:"8%" , overflow:"visible" }} 
                     >
@@ -254,9 +235,10 @@ export default function DailyCalander()
                            borderStyle: "solid",
                        }} />
                            
-                       {daysEN.map((day) => {
+                       {weekdays.map((day) => {
                            return (
                                <Box
+                                    key={day}
                                     sx={{
                                         px: 1,
                                         py:0.8,
@@ -267,7 +249,7 @@ export default function DailyCalander()
                                        flexBasis: "0%",
                                        borderColor: "hsla(0, 1%, 74%, 0.542)",
                                        borderWidth:0,
-                                       borderLeftWidth: 1,
+                                       borderLeftWidth: day === "SUN" ? 1 : 0,
                                        borderBottomWidth:1,
                                        borderRightWidth: day === "SAT" ? 1 : 0,
                                        borderStyle: "solid",

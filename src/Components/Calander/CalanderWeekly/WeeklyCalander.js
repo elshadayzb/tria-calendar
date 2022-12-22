@@ -6,9 +6,13 @@
     Grid,
   } from "@mui/material";
   import { Stack } from "@mui/system";
-import { Fragment , useContext } from "react";
-import { WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
+import { Fragment , useContext, useEffect } from "react";
+import { HOURS, WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
 import CalanderContext from "../../../Store/calander-store";
+import { getSelectedWeekGreg } from "../../../Util/CalanderFunction";
+import CalanderSideDay from "../../UI/Button/Calander-Side_Days";
+
+
 
 
 
@@ -20,6 +24,22 @@ export default function WeeklyCalander()
     let context = useContext(CalanderContext);
     
     let weekdays = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH ;
+
+
+
+
+
+    useEffect(()=>{
+        context.setSelectedWeek(getSelectedWeekGreg(context.selectedDate))
+    }, [context.selectedDate])
+    
+    
+    const dayClickHandler = (day) => {
+        context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, selectedYear: day.dayYear, 
+                            selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay})
+        context.setPickerOption("day")
+    }
+
 
     return(
             <Fragment >
@@ -40,9 +60,10 @@ export default function WeeklyCalander()
            <Stack display="flex" 
             flexGrow={1} 
             ml="7%" height="fit-content" flexDirection="row">
-                {daysEN.map((day) => {
+                {weekdays.map((day) => {
                     return (
                         <Box
+                            key={day}
                             sx={{
                                 px: 2,
                                 display: "flex",
@@ -77,36 +98,35 @@ export default function WeeklyCalander()
 
             <Stack display="flex" 
                flexGrow={1} ml="7%"  height="fit-content" flexDirection="row">
-                {dayNUMS.map((day) => {
+                {context.selectedWeek.week.map((day,index) => {
                     return (
                         <Box
+                            key={index}
                             sx={{
                                 px: 2,
                                 display: "flex",
-                                flexDirection: "row",
-                                justifyItems: "stretch",
+                                flexDirection: "column",
+                                alignItems:"center",
                                 flexGrow: 1,
                                 flexShrink: 1,
                                 flexBasis: "0%",
                                 height: { xs: "100%" },
-
+                                color: "hsla(228, 12%, 48%, 0.868)",
+                                textAlign: "center",
+                                fontSize: "150%",
+                                fontFamily: "Montserrat",
+                                fontWeight: "500",
                                 overflow: "hidden",
                               
                             }}
                         >
-                            <Typography
-                                width="100%"
-                                sx={{
-                                    p: { xs: 0.5 },
-                                    color: "hsla(228, 12%, 48%, 0.868)",
-                                    textAlign: "center",
-                                    fontSize: "150%",
-                                    fontFamily: "Montserrat",
-                                    fontWeight: "500",
-                                }}
-                            >
-                                {day}
-                            </Typography>
+
+
+                    <CalanderSideDay  dayClicked={dayClickHandler} 
+                                                px={1}
+                                                day={day} />
+
+
                         </Box>
                     );
                 })}
@@ -152,9 +172,10 @@ export default function WeeklyCalander()
                     borderStyle: "solid",
                 }} />
                     
-                {daysEN.map((day) => {
+                {weekdays.map((day) => {
                     return (
                         <Box
+                            key={day}
                             sx={{
                                 px: 1,
                                 py:0.5,
@@ -202,11 +223,13 @@ export default function WeeklyCalander()
          flexGrow={1}  height="100%"  >
 
         {
-            hours.map((hour) => {
+            HOURS.map((hour) => {
                 return(
                        
                     
-                    <Stack display="flex" 
+                    <Stack 
+                    key={hour}
+                    display="flex" 
                     flexGrow={0}  mt={0} flexDirection="row"
                     sx={{ height:"8%" , overflow:"visible" }} 
                     >
@@ -247,9 +270,10 @@ export default function WeeklyCalander()
                            borderStyle: "solid",
                        }} />
                            
-                       {daysEN.map((day) => {
+                       {weekdays.map((day) => {
                            return (
                                <Box
+                                    key={day}
                                     sx={{
                                         px: 1,
                                         py:0.8,

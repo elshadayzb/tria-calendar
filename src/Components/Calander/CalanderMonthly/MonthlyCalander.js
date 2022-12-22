@@ -1,72 +1,65 @@
-import { Fragment, useContext  } from "react";
-import { Typography } from '@mui/material';
-import { Box, Stack } from '@mui/system';
+import { Fragment, useContext } from "react";
+import { Typography } from "@mui/material";
+import { Box, Stack } from "@mui/system";
 import MonthlyTask from "../../Task/TaskMonthly/MonthlyTask";
 import { WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
 import CalanderContext from "../../../Store/calander-store";
 
 export default function MonthlyCalander() {
+  let context = useContext(CalanderContext);
 
-    let context = useContext(CalanderContext);
-    
-    let weekdays = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH ;
-    
-   
-    return (
-        <Fragment>
-            <Stack display="flex" height="fit-content" flexDirection="row">
-                {weekdays.map((day) => {
-                    return (
-                        <Box
-                            key={day}
-                            sx={{
-                                px: 2,
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyItems: "stretch",
-                                flexGrow: 1,
-                                flexShrink: 1,
-                                flexBasis: "0%",
-                                borderColor: "hsla(0, 1%, 74%, 0.542)",
-                                borderWidth: 1,
-                                borderTopWidth: 0,
-                                borderBottomWidth:0,
-                                borderRightWidth: day === "SAT" ? 1 : 0,
-                                borderStyle: "solid",
+  let weekdays = context.isGregorian ? WEEKDAYSGREG : WEEKDAYSETH;
 
-                                height: { xs: "100%" },
+  return (
+    <Fragment>
+      <Stack display="flex" height="fit-content" flexDirection="row">
+        {weekdays.map((day) => {
+          return (
+            <Box
+              key={day}
+              sx={{
+                px: 2,
+                display: "flex",
+                flexDirection: "row",
+                justifyItems: "stretch",
+                flexGrow: 1,
+                flexShrink: 1,
+                flexBasis: "0%",
+                borderColor: "hsla(0, 1%, 74%, 0.542)",
+                borderWidth: 1,
+                borderTopWidth: 0,
+                borderBottomWidth: 0,
+                borderRightWidth: day === "SAT" ? 1 : 0,
+                borderStyle: "solid",
 
-                                overflow: "hidden",
-                                "&:hover": {
-                                    backgroundColor: "primary.main",
-                                    opacity: [0.9, 0.8, 0.7],
-                                },
-                            }}
-                        >
-                            <Typography
-                                width="100%"
-                                sx={{
-                                    p: { xs: 0.5 },
-                                    color: "hsla(0, 2%, 11%, 0.819)",
-                                    textAlign: "center",
-                                    fontSize: "90%",
-                                    fontFamily: "Montserrat",
-                                    fontWeight: "500",
-                                }}
-                            >
-                                {day}
-                            </Typography>
-                        </Box>
-                    );
-                })}
-            </Stack>
+                height: { xs: "100%" },
 
-            
-         <MonthlyTask />
+                overflow: "hidden",
+                "&:hover": {
+                  backgroundColor: "primary.main",
+                  opacity: [0.9, 0.8, 0.7],
+                },
+              }}
+            >
+              <Typography
+                width="100%"
+                sx={{
+                  p: { xs: 0.5 },
+                  color: "hsla(0, 2%, 11%, 0.819)",
+                  textAlign: "center",
+                  fontSize: "90%",
+                  fontFamily: "Montserrat",
+                  fontWeight: "500",
+                }}
+              >
+                {day}
+              </Typography>
+            </Box>
+          );
+        })}
+      </Stack>
 
-
-        </Fragment>
-    );
-
-
+      <MonthlyTask />
+    </Fragment>
+  );
 }

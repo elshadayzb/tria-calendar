@@ -45,20 +45,21 @@ export default function CalanderSideDay(props)
 
     return(
         
-        <Button key={props.Ukey} onClick={props.dayClicked.bind(this,props.day)}
+        <Button key={props.Ukey} onClick={  props.dayClicked !== undefined ? props.dayClicked.bind(this,props.day) : ""}
             disableRipple={false}    
             sx={{    
                 fontSize: 'inherit',
                 fontFamily: 'inherit',
                 fontWeight: 'inherit',
                 ...DayStyler(context.isGregorian,context.monthIndex,context.yearIndex,context.selectedDate,props.day),
-                px: 0, py: 0,
+                px: props.px !== undefined ? props.px : 0, // used to make the weekcalander and daycalander days rounder(keep btn styling)
+                py: 0,
                 borderRadius: "50%", minHeight: { xs: 24 },
                 minWidth: { xs: 24 }, margin: 0,
                 '&:hover': (props.day.day !== context.selectedDate.selectedDay) ? btnStyles.hoverDefault : btnStyles.hoverActive 
                 
             }} >
-                {props.day.day}
+                {props.day.day !== undefined ? props.day.day  : props.day.selectedDay }
             </Button>
         
     );
