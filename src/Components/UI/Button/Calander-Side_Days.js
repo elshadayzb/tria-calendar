@@ -88,7 +88,7 @@ export default function CalanderSideDay(props)
                 fontWeight: 'inherit',
                 ...DayStyler(context.isGregorian,context.monthIndex,context.yearIndex,context.selectedDate,
                     day,props.isSide,context.pickerOption),
-                px: props.px !== undefined ? props.px : 0, // used to make the weekcalander and daycalander days rounder(keep btn styling)
+                px: props.px !== undefined ? (day.day >= 10 ) ? 1 : 1.5 : 0, // used to make the weekcalander and daycalander days rounder(keep btn styling)
                 py: 0,
                 borderRadius: "50%", minHeight: { xs: 24 },
                 minWidth: { xs: 24 }, margin: 0,
