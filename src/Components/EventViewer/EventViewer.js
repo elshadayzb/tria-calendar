@@ -15,19 +15,17 @@ export default function EventViewer()
 
    return(
      <Grid  xs={9.8} display="flex" 
-         
-         flexDirection={(context.pickerOption === "month") ? "column" : "row"}  
-         
-         container item overflow="auto" sx={{  height:"89.3vh"}}>
+            flexDirection={(context.pickerOption === "month") ? "column" : "row"}  
+            container item overflow="auto" sx={{  height:"89.3vh"}}>
     
 
-      { context.pickerOption === "day" && <DailyCalander /> }
+      {/* { context.pickerOption === "day" && <DailyCalander /> }
       
       { context.pickerOption === "week" && <WeeklyCalander /> }
       
       { context.pickerOption === "month" && <MonthlyCalander /> }
       
-      { context.pickerOption === "year" && <YearlyCalander /> }
+      { context.pickerOption === "year" && <YearlyCalander /> } */}
       
       
     

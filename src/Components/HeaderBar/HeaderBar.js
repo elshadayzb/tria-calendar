@@ -1,6 +1,4 @@
-import {
-  MenuRounded,
-} from "@mui/icons-material";
+import { Fragment, useContext, useEffect } from "react";
 import {
   AppBar,
   Typography,
@@ -13,14 +11,56 @@ import {
   Switch,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import { Fragment, useContext } from "react";
+import { MenuRounded } from "@mui/icons-material";
 import CalanderContext from "../../Store/calander-store";
 import CalanderHeader from "../Calander-Header/Calander-Header";
 import CalanderViewType from "../CalanderViewTypeButton-Header/CalanderViewType";
+import CalendarConverter from "../../Util/CalendarConverter";
 
 export default function HeaderBar() {
 
   const context = useContext(CalanderContext);
+  const calendarConverter = new CalendarConverter();
+
+  const calendarConverterHandler = () => {
+    let convertedSelectedDate;
+    //let weekDay;
+    if(context.isGregorian){
+      // convert the selected Gregorain date to Ethiopic
+      convertedSelectedDate = calendarConverter.convertToEC(context.selectedDate.selectedYear, 
+                                                            context.selectedDate.selectedMonth + 1, 
+                                                            context.selectedDate.selectedDay);
+
+      /* weekDay = calendarConverter.getETWeekDay(convertedSelectedDate.year, 
+                                                 convertedSelectedDate.month, 
+                                                 convertedSelectedDate.day) */
+
+    }else{
+      // convert the selected Ethiopic date to Gregorian
+      convertedSelectedDate = calendarConverter.convertToGC(context.selectedDate.selectedYear, 
+                                                            context.selectedDate.selectedMonth + 1, 
+                                                            context.selectedDate.selectedDay);
+
+      /* weekDay = new Date(convertedSelectedDate.year, 
+                        convertedSelectedDate.month - 1, 
+                        convertedSelectedDate.day).setFullYear(convertedSelectedDate.year).getDay() */
+    }
+    // set the selected date to the converted date
+    context.setSelectedDate({selectedDay: convertedSelectedDate.day, 
+                             selectedMonth: convertedSelectedDate.month - 1, 
+                             selectedYear: convertedSelectedDate.year, 
+                             selectedDayIndex: convertedSelectedDate.day, 
+                             selectedWeekDay: context.selectedDate.selectedWeekDay}); 
+
+    context.setMonthIndex(convertedSelectedDate.month - 1); // set the month index with the converted month
+    context.setYearIndex(convertedSelectedDate.year); // set the year index with the converted year
+
+    context.setMonthSideIndex(convertedSelectedDate.month - 1) // set the month side index with the converted month
+    context.setYearSideIndex(convertedSelectedDate.year) // set the year side index with the converted year 
+
+    context.setIsGregorian(prevState => !prevState); 
+  }
+
 
   return (
     <Fragment>
@@ -95,7 +135,7 @@ export default function HeaderBar() {
               >
                
                 
-               <CalanderHeader />
+               <CalanderHeader /> 
 
               </Container>
             </Stack>
@@ -105,21 +145,16 @@ export default function HeaderBar() {
                 <p style={{borderBottom: !context.isGregorian ? "3px solid #28f" : ""}}>ኢት</p>
                 <Switch
                     checked={context.isGregorian} 
-                    onChange={() =>context.setIsGregorian(prevState => !prevState)}
+                    onChange={calendarConverterHandler}
                     sx={{
                         '& .MuiSwitch-switchBase + .MuiSwitch-track' :{
                             backgroundColor: "#28f"},
                       '& .MuiSwitch-switchBase' :{
                             color: "#28f"},     	    
                         }}	/>
-                <p style={{borderBottom: context.isGregorian ? "3px solid #28f" : ""}}>Gr</p>
+                <p style={{borderBottom: context.isGregorian ? "3px solid #28f" : ""}}>EN</p>
             </Stack>    
-
-
-
-
-
-            <CalanderViewType />
+            {/* <CalanderViewType /> */}
           </Toolbar>
         </AppBar>
       </Box>

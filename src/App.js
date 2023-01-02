@@ -8,8 +8,6 @@ import {CalanderContextProvider} from './Store/calander-store';
 function App() {
   return (
 
-   
-    
       <Fragment>
          <Stack >
             <HeaderBar />
@@ -17,8 +15,6 @@ function App() {
         </Stack>
   
       </Fragment>
-      
-
 
   );
 }

@@ -1,58 +1,50 @@
-import {
-    ChevronLeftOutlined,
-    ChevronRightOutlined,
-  } from "@mui/icons-material";
-  import {
-    IconButton,
-    Typography,
-    Button
-    
-  } from "@mui/material";
-  import { Stack } from "@mui/system";
-  import { Fragment, useContext } from "react";
+import { Fragment, useContext } from "react";
+import {ChevronLeftOutlined, ChevronRightOutlined, } from "@mui/icons-material";
+import { IconButton, Typography, Button } from "@mui/material";
+import { Stack } from "@mui/system";
 import CalanderContext from "../../Store/calander-store";
 import { MONTHSETH, MONTHSETHSHORT, MONTHSGREG, MONTHSGREGDAYS, MONTHSGREGSHORT } from "../../Util/CalanderConstants";
-import { getSelectedWeekGreg} from "../../Util/CalanderFunction";
+import { getSelectedWeekGreg, getGregMonthDaysCount, getEthMonthDaysCount, getGregDateWeekDay } from "../../Util/CalanderFunction";
+import CalendarConverter from "../../Util/CalendarConverter";
 
 export default function CalanderHeader()
 {
 
-
 const {monthIndex, setMonthIndex, yearIndex, setYearIndex,  pickerOption,   
-        isGregorian,  selectedWeek, setSelectedWeek, selectedDate, setSelectedDate} = useContext(CalanderContext)
+        isGregorian,  selectedWeek, setSelectedWeek, selectedDate, setSelectedDate} = useContext(CalanderContext);
+
+const calendarConverter = new CalendarConverter();
 
 const {selectedDay, selectedMonth, selectedYear} = selectedDate; 
-let monthDaysCount, weekYear, weekMonth;
-let newSelectedDay;
+let monthDaysCount, weekYear, weekMonth, weekDay, newSelectedDay, gregDate;
 
 const getMonthDaysCount = (month, year) => {
-    if(month !== 1){
-         return MONTHSGREGDAYS[month]
-    }else{
-        return ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) ? 29 : 28       
-    }
+    return isGregorian ? getGregMonthDaysCount(month, year) : getEthMonthDaysCount(month, year);
 }
 
 const prevMonthHandler = ()=>{
     if(pickerOption === 'year'){
         weekYear = yearIndex - 1
         setYearIndex(curYear => curYear - 1)
-        const weekDay = new Date(weekYear, selectedMonth, 1).getDay()
+        weekDay = isGregorian ? getGregDateWeekDay(weekYear, selectedMonth, 1) : calendarConverter.getETMonthStartDay(weekYear, selectedMonth + 1);
+                    
         setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: weekYear, selectedDayIndex: selectedDay, 
                          selectedWeekDay: weekDay }) 
     }
     else if(pickerOption === 'month'){
         if(monthIndex === 0){    
-           setMonthIndex(11)
-           setYearIndex(curYear => curYear - 1)
-           weekMonth = 11
-           weekYear = selectedYear - 1
+           setMonthIndex(isGregorian ? 11 : 12);  // set the month to the previous year last month
+           setYearIndex(curYear => curYear - 1);
+           weekMonth = isGregorian ? 11 : 12;
+           weekYear = selectedYear - 1;
         }else{
-            setMonthIndex(curMonth =>  curMonth - 1)
-            weekMonth = selectedMonth - 1
-            weekYear = selectedYear
+            setMonthIndex(curMonth =>  curMonth - 1);
+            weekMonth = selectedMonth - 1;
+            weekYear = selectedYear;
         }  
-        const weekDay = new Date(weekYear, weekMonth, 1).getDay()
+
+        weekDay = isGregorian ? getGregDateWeekDay(weekYear, weekMonth, 1) : calendarConverter.getETMonthStartDay(weekYear, weekMonth + 1);
+
         setSelectedDate({selectedDay: 1, selectedMonth: weekMonth, selectedYear: weekYear, selectedDayIndex: 1, 
                          selectedWeekDay: weekDay })            
    }else if(pickerOption === "week"){
@@ -78,7 +70,7 @@ const prevMonthHandler = ()=>{
         if(newSelectedDay < 1 ){
             newSelectedDay += monthDaysCount               
         }
-        const weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
+        weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
         setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
                         selectedDayIndex: newSelectedDay, selectedWeekDay: weekDay })
    }else if(pickerOption === 'day'){
@@ -99,23 +91,24 @@ const prevMonthHandler = ()=>{
         if(newSelectedDay < 1){
             newSelectedDay = monthDaysCount
         }
-        const weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
+        weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
         setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
                         selectedDayIndex: newSelectedDay, selectedWeekDay: weekDay })
    }
 
 }
 const nextMonthHandler = ()=>{
-    console.log("month Index: ", monthIndex, " year Index: ", yearIndex)
+    
     if(pickerOption === 'year'){
         weekYear = yearIndex + 1
         setYearIndex(curYear => curYear + 1)
-        const weekDay = new Date(weekYear, selectedMonth, 1).getDay()
+        weekDay = isGregorian ? getGregDateWeekDay(weekYear, selectedMonth, 1) : calendarConverter.getETMonthStartDay(weekYear, selectedMonth + 1);
+        
         setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: weekYear, selectedDayIndex: selectedDay, 
                          selectedWeekDay: weekDay }) 
     }
     else if (pickerOption === 'month'){
-        if(monthIndex === 11){
+        if((isGregorian && monthIndex === 11) || (!isGregorian && monthIndex === 12)){
             setMonthIndex(0)
             setYearIndex(curYear => curYear + 1)  
             weekMonth = 0
@@ -125,9 +118,11 @@ const nextMonthHandler = ()=>{
             weekMonth = selectedMonth + 1
             weekYear = selectedYear
         }
-        const weekDay = new Date(weekYear, weekMonth, 1).getDay()
+        
+        weekDay = isGregorian ? getGregDateWeekDay(weekYear, weekMonth, 1) : calendarConverter.getETMonthStartDay(weekYear, weekMonth + 1);
         setSelectedDate({selectedDay: 1, selectedMonth: weekMonth, selectedYear: weekYear, selectedDayIndex: 1, 
                          selectedWeekDay: weekDay })  
+
     }else if(pickerOption === "week"){
         newSelectedDay = selectedDay + 7
         monthDaysCount = getMonthDaysCount(selectedMonth, selectedYear)
@@ -146,38 +141,42 @@ const nextMonthHandler = ()=>{
             weekMonth = selectedMonth
             weekYear = selectedYear 
         }
-        const weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
+        weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
         setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
                          selectedDayIndex: newSelectedDay, selectedWeekDay:  weekDay})
    }else if(pickerOption === "day"){
-    newSelectedDay = selectedDay + 1
-    monthDaysCount = getMonthDaysCount(selectedMonth, selectedYear)
-    if(newSelectedDay > monthDaysCount){
-        if(selectedMonth === 11){
-            weekMonth = 0   
-            weekYear = selectedYear + 1
-            setYearIndex(weekYear)  
+        newSelectedDay = selectedDay + 1
+        monthDaysCount = getMonthDaysCount(selectedMonth, selectedYear)
+        if(newSelectedDay > monthDaysCount){
+            if(selectedMonth === 11){
+                weekMonth = 0   
+                weekYear = selectedYear + 1
+                setYearIndex(weekYear)  
+            }else{
+                weekMonth = selectedMonth + 1
+                weekYear = selectedYear   
+            }
+            newSelectedDay = 1
+            setMonthIndex(weekMonth) 
         }else{
-            weekMonth = selectedMonth + 1
-            weekYear = selectedYear   
+            weekMonth = selectedMonth
+            weekYear = selectedYear 
         }
-        newSelectedDay = 1
-        setMonthIndex(weekMonth) 
-    }else{
-        weekMonth = selectedMonth
-        weekYear = selectedYear 
-    }
-    const weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
-    setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
-                     selectedDayIndex: newSelectedDay, selectedWeekDay:  weekDay})
+        weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
+        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
+                        selectedDayIndex: newSelectedDay, selectedWeekDay:  weekDay})
 }             
 }
 
 const dateResetHandler = () => {
-    const curDay = new Date().getDate()
-    const weekDay = new Date().getDay()
-    const month = new Date().getMonth()
-    const year = new Date().getFullYear()
+    const gregToday = new Date();
+    gregToday.setFullYear(gregToday.getFullYear());
+    const etToday = calendarConverter.getETToday();
+    const curDay = isGregorian ? gregToday.getDate() : etToday.day
+    const weekDay = gregToday.getDay()
+    const month = isGregorian ? gregToday.getMonth() : etToday.month - 1
+    const year = isGregorian ? gregToday.getFullYear() : etToday.year
+
     setMonthIndex(month)
     setYearIndex(year)
     setSelectedDate({selectedDay: curDay, selectedMonth: month, selectedYear: year, selectedDayIndex: curDay, selectedWeekDay: weekDay})
@@ -185,45 +184,37 @@ const dateResetHandler = () => {
 }
 
 const getHeaderTitle = () => {
-    let monthTitle, yearTitle
+    let monthTitle;
     if(pickerOption === 'month'){
-        monthTitle = isGregorian ? MONTHSGREG[monthIndex]: MONTHSETH[monthIndex > 7 ? (monthIndex - 8) : (monthIndex + 4)]
-        yearTitle = isGregorian ? yearIndex : (monthIndex > 7 ? (yearIndex - 7) : (yearIndex - 8))
-        return `${monthTitle} ${yearTitle}`
+        monthTitle = isGregorian ? MONTHSGREG[monthIndex]: MONTHSETH[monthIndex]
+        return `${monthTitle} ${yearIndex}`
+
     }else if(pickerOption === 'week'){
         const uniqueMonths = [...new Set(selectedWeek.week.map(day => day.dayMonth))];
         const uniqueYears = [...new Set(selectedWeek.week.map(day => day.dayYear))];
-        console.log("Unique Months: ", uniqueMonths, " Unique Years: ", uniqueYears)
+        console.log("Unique Months: ", uniqueMonths, " Unique Years: ", uniqueYears);
+
         if(uniqueYears.length > 1){
             monthTitle = isGregorian ? 
-                            `${MONTHSGREGSHORT[uniqueMonths[0]]} ${uniqueYears[1]} - ${MONTHSGREGSHORT[uniqueMonths[1]]} ${uniqueYears[1]}`:
-                            `${MONTHSETHSHORT[uniqueMonths[0] > 7 ? (uniqueMonths[0] - 8) : (uniqueMonths[0] + 4)]} ${uniqueMonths[0]> 7 ? (uniqueYears[0] - 7) : (uniqueYears[0] - 8)} - 
-                            ${MONTHSETHSHORT[uniqueMonths[1] > 7 ? (uniqueMonths[1] - 8) : (uniqueMonths[1] + 4)]} ${uniqueMonths[1]> 7 ? (uniqueYears[1] - 7) : (uniqueYears[1] - 8)}`
-            
+                            `${MONTHSGREGSHORT[uniqueMonths[0]]} ${uniqueYears[0]} - ${MONTHSGREGSHORT[uniqueMonths[1]]} ${uniqueYears[1]}`:
+                            `${MONTHSETHSHORT[uniqueMonths[0]]} ${uniqueYears[0]} - ${MONTHSETHSHORT[uniqueMonths[1]]} ${uniqueYears[1]}`
             return monthTitle
         }
         else if(uniqueYears.length === 1 && uniqueMonths.length > 1){
             monthTitle = isGregorian ? `${MONTHSGREGSHORT[uniqueMonths[0]]} - ${MONTHSGREGSHORT[uniqueMonths[1]]}`:
-                         `${MONTHSETHSHORT[uniqueMonths[0] > 7 ? (uniqueMonths[0] - 8) : (uniqueMonths[0] + 4)]} -
-                         ${MONTHSETHSHORT[uniqueMonths[1] > 7 ? (uniqueMonths[1] - 8) : (uniqueMonths[1] + 4)]}`
-            yearTitle = isGregorian ? uniqueYears[0] : (uniqueMonths[0]> 7 ? (uniqueYears[0] - 7) : (uniqueYears[0] - 8))
+                                       `${MONTHSETHSHORT[uniqueMonths[0]]} - ${MONTHSETHSHORT[uniqueMonths[1]]}`
 
-            return `${monthTitle} ${yearTitle}`
+            return `${monthTitle} ${uniqueYears[0]}`
         }else {
-            monthTitle = isGregorian ? MONTHSGREG[monthIndex]: MONTHSETH[monthIndex > 7 ? (monthIndex - 8) : (monthIndex + 4)]
-            yearTitle = isGregorian ? yearIndex : (monthIndex > 7 ? (yearIndex - 7) : (yearIndex - 8))
-            return `${monthTitle} ${yearTitle}` 
+            monthTitle = isGregorian ? MONTHSGREG[monthIndex]: MONTHSETH[monthIndex]
+            return `${monthTitle} ${yearIndex}` 
         } 
     }else if(pickerOption === 'day'){
-        const dayMonth = selectedDate.selectedMonth
-        monthTitle = isGregorian ? MONTHSGREG[dayMonth] : MONTHSETH[dayMonth > 7 ? (dayMonth - 8) : (dayMonth + 4)]
-        yearTitle = isGregorian ? selectedDate.selectedYear : (dayMonth > 7 ? 
-                                (selectedDate.selectedYear - 7) : (selectedDate.selectedYear - 8))
-        return `${monthTitle} ${selectedDate.selectedDay}, ${yearTitle}`
+        monthTitle = isGregorian ? MONTHSGREG[selectedDate.selectedMonth] : MONTHSETH[selectedDate.selectedMonth]
+        return `${monthTitle} ${selectedDate.selectedDay}, ${selectedDate.selectedYear}`
     }
     else if(pickerOption === 'year'){
-        yearTitle = isGregorian ? yearIndex : (monthIndex > 7 ? (yearIndex - 7) : (yearIndex - 8))
-        return `${yearTitle}`
+        return `${yearIndex}`
     }
 }
 
