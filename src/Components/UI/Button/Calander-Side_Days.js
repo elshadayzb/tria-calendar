@@ -1,3 +1,4 @@
+import { Construction } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { useContext } from "react";
 import CalanderContext from "../../../Store/calander-store";
@@ -7,7 +8,7 @@ import CalendarConverter from "../../../Util/CalendarConverter";
 
 const btnStyles = {
     default : {color:"inherit" , bgcolor:""},
-    defaultLight:{color:"hsl(210, 4%, 46%)" , bgcolor:""},
+    defaultLight:{color:"hsl(240, 4%, 40%)" , bgcolor:""},
     active : {bgcolor : " hsl(214, 82%, 51%)" , color : "hsl(0, 0%, 96%)"},
     selected : {bgcolor : "hsl(216, 88%, 91%)" , color : "hsl(214, 82%, 51%)"},
     selectedLight: {bgcolor : "#e8eaed" , color : "inherit"},
@@ -21,13 +22,13 @@ function DayStyler(isGregorian, monthIndex, yearIndex, selectedDate, day, isSide
     const currentDate = new Date();
     const calendarConverter = new CalendarConverter();
     const etToday = calendarConverter.getETToday();
-    let monthDaysCount;
+    let monthDaysCount; //= isGregorian ? getGregMonthDaysCount(day.dayMonth, day.dayYear) : getEthMonthDaysCount(day.dayMonth, day.dayYear);
     if(day.dayMonth === 0){
       monthDaysCount = isGregorian ? getGregMonthDaysCount(11, day.dayYear - 1) : getEthMonthDaysCount(12, day.dayYear - 1)
     }else{
       monthDaysCount = isGregorian ? getGregMonthDaysCount(day.dayMonth - 1, day.dayYear) : getEthMonthDaysCount(day.dayMonth - 1, day.dayYear)
-    }
-
+    } 
+        
          if(isGregorian && (currentDate.getDate() === day.day) && 
             (currentDate.getMonth() === day.dayMonth) && 
                 (currentDate.getFullYear() === day.dayYear)){
@@ -51,7 +52,9 @@ function DayStyler(isGregorian, monthIndex, yearIndex, selectedDate, day, isSide
                 && (isSide || pickerOption === "year"  ) && (day.dayIndex <= 0 || day.dayIndex > monthDaysCount)){
             return btnStyles.selectedLight; 
                 
-             }
+        }else if((isSide || pickerOption === "year"  ) && (day.dayIndex <= 0 || day.dayIndex > monthDaysCount)){
+            return btnStyles.defaultLight;
+        }
         else
         {
             return btnStyles.default;
