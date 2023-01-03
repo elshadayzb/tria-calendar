@@ -19,13 +19,13 @@ export default function EventViewer()
             container item overflow="auto" sx={{  height:"89.3vh"}}>
     
 
-      {/* { context.pickerOption === "day" && <DailyCalander /> }
+      { context.pickerOption === "day" && <DailyCalander /> }
       
-      { context.pickerOption === "week" && <WeeklyCalander /> }
+     {/*  { context.pickerOption === "week" && <WeeklyCalander /> }*/}
       
       { context.pickerOption === "month" && <MonthlyCalander /> }
       
-      { context.pickerOption === "year" && <YearlyCalander /> } */}
+      { context.pickerOption === "year" && <YearlyCalander /> } 
       
       
     

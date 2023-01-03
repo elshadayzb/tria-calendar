@@ -10,21 +10,21 @@ import CalanderSideDay from '../../../UI/Button/Calander-Side_Days';
 export default function YearMonthCalander(props) {
 
 
-    let context = useContext(CalanderContext);
+    const context = useContext(CalanderContext);
 
-    const monthDays = getMonthDaysGreg(props.monthindex, context.yearIndex);
+    const monthDays = context.isGregorian ? getMonthDaysGreg(props.monthindex, context.yearIndex) :
+                                            getMonthDaysEthiopic(props.monthindex, context.yearIndex) ;
     
-    let weekdaynames = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH;
+    const weekdaynames = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH;
 
-    let monthName = context.isGregorian ? MONTHSGREG[props.monthindex]: MONTHSETH[props.monthindex > 7 ? (props.monthindex - 8) : 
-        (props.monthindex + 4)];
+    const monthName = context.isGregorian ? MONTHSGREG[props.monthindex]: MONTHSETH[props.monthindex];
     
     
 
     const dayClickHandler = (day) => {
        
         context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, selectedYear: day.dayYear, 
-                        selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay})
+                                 selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay})
     }
 
     return (
@@ -86,7 +86,7 @@ export default function YearMonthCalander(props) {
                                                 dayClicked={dayClickHandler} 
                                                 key={dayidx}
                                                 day={day}
-                                                
+                                                monthindex = {props.monthindex}
                                                 />
                                             );
 

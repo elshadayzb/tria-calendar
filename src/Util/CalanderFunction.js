@@ -88,76 +88,76 @@ export const getMonthDaysEthiopic = (month, year) =>{
                     let prevDays = pagumeDays + currentDay
                     // display days of the 13th month (Pagume)
                     if (prevDays > 0){
-                        return {day: prevDays, dayMonth: 12, dayYear: year - 1, dayIndex: currentDay, weekDay: weekDay++}
+                        return {day: prevDays, dayMonth: 12, dayYear: year - 1, dayIndex: currentDay, weekDay: weekDay++};
                     }
                     // display days of the 12th month (Nehase)
-                    return {day: 30 - prevDays, dayMonth: 11, dayYear: year - 1, dayIndex: currentDay, weekDay: weekDay++}
+                    return {day: 30 - prevDays, dayMonth: 11, dayYear: year - 1, dayIndex: currentDay, weekDay: weekDay++};
                 }
                 // display days of the next month 
                 if(currentDay > 30){
-                    return {day: currentDay - 30, dayMonth: month + 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}   
+                    return {day: currentDay - 30, dayMonth: month + 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++};   
                 }
                 // display days of the current month (Meskerem)      
-                return {day: currentDay, dayMonth: month, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}
+                return {day: currentDay, dayMonth: month, dayYear: year, dayIndex: currentDay, weekDay: weekDay++};
 
             }else if(month === 11){
                 // display days of the previous month for Nehase (12th month)
                 if(currentDay < 1){
-                    return {day: 30 + currentDay, dayMonth: month - 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++} 
+                    return {day: 30 + currentDay, dayMonth: month - 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}; 
                 }
                 // display days of the next month
                 if(currentDay > 30){
                     // check if the days count go to next month or first month of next year
                     if(currentDay <= extraDays){
                         // display days of the 13th month (Pagume)
-                        return {day: currentDay - 30, dayMonth: month + 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}
+                        return {day: currentDay - 30, dayMonth: month + 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++};
                     }
                     // display days of the first month of next year (Meskerem)    
-                    return {day: currentDay - extraDays, dayMonth: 0, dayYear: year + 1, dayIndex: currentDay, weekDay: weekDay++}
+                    return {day: currentDay - extraDays, dayMonth: 0, dayYear: year + 1, dayIndex: currentDay, weekDay: weekDay++};
                 }
                 // display days of the current month (Nehase)
-                return {day: currentDay, dayMonth: month, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}
+                return {day: currentDay, dayMonth: month, dayYear: year, dayIndex: currentDay, weekDay: weekDay++};
             }else if(month === 12){
                 // display days of the previous month for Pagume (13th month)
                 if(currentDay < 1){
                     // display days of the 12th month (Nehase)
-                    return {day: 30 + currentDay, dayMonth: month - 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++} 
+                    return {day: 30 + currentDay, dayMonth: month - 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}; 
                 }
                 if(currentDay > pagumeDays){
                     // check if the days count go to the 1st month or 2nd month of next year
                     if(currentDay <= extraDays){
                         // display days of the 1st month of next year (Meskerem)
-                        return {day: currentDay - pagumeDays, dayMonth: 0, dayYear: year + 1, dayIndex: currentDay, weekDay: weekDay++}
+                        return {day: currentDay - pagumeDays, dayMonth: 0, dayYear: year + 1, dayIndex: currentDay, weekDay: weekDay++};
                     }
                         // display days of the 2nd month of next year (Tikimt)
-                        return {day: currentDay - extraDays, dayMonth: 1, dayYear: year + 1, dayIndex: currentDay, weekDay: weekDay++}
+                        return {day: currentDay - extraDays, dayMonth: 1, dayYear: year + 1, dayIndex: currentDay, weekDay: weekDay++};
                 }
                 // display days of the current month (Pagume)
-                return {day: currentDay, dayMonth: month, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}
+                return {day: currentDay, dayMonth: month, dayYear: year, dayIndex: currentDay, weekDay: weekDay++};
             }else{
                 // display the month days for any other month
 
                 // display days of the previous month
                 if(currentDay < 1){
-                    return {day: 30 + currentDay, dayMonth: month-1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++} 
+                    return {day: 30 + currentDay, dayMonth: month-1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}; 
                 }
                 // display days of the next month    
                 if(currentDay > 30){
-                    return {day: currentDay - 30, dayMonth: month + 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}   
+                    return {day: currentDay - 30, dayMonth: month + 1, dayYear: year, dayIndex: currentDay, weekDay: weekDay++};   
                 } 
                 // display days of the current month      
-                return {day: currentDay, dayMonth: month, dayYear: year, dayIndex: currentDay, weekDay: weekDay++}
+                return {day: currentDay, dayMonth: month, dayYear: year, dayIndex: currentDay, weekDay: weekDay++};
             } 
         })
     })
-    return monthDays
+    return monthDays;
 }
 
 export const getSelectedWeekGreg = ({selectedDay, selectedMonth, selectedYear})=>{
     //console.log("Selected Day", selectedDay, "selected Month: ", selectedMonth, "selected year: ", selectedYear)
     const selectedMonthDays = getMonthDaysGreg (selectedMonth, selectedYear)
     let i, j;
-    for(i=0; i<selectedMonthDays.length; i++){
+    for( i = 0; i < selectedMonthDays.length; i++){
         let week = selectedMonthDays[i]
         //all weeks have 7 days
         for(j=0; j< 7; j++){

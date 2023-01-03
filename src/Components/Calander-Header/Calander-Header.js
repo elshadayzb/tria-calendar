@@ -26,15 +26,19 @@ const prevMonthHandler = ()=>{
     if(pickerOption === 'year'){
         weekYear = yearIndex - 1
         setYearIndex(curYear => curYear - 1)
-        weekDay = isGregorian ? getGregDateWeekDay(weekYear, selectedMonth, 1) : calendarConverter.getETMonthStartDay(weekYear, selectedMonth + 1);
+        weekDay = isGregorian ?
+                    getGregDateWeekDay(weekYear, selectedMonth, selectedDay) : 
+                    calendarConverter.getETWeekDay(weekYear, selectedMonth + 1, selectedDay); 
+                    //getGregDateWeekDay(weekYear, selectedMonth, 1) : 
+                    //calendarConverter.getETMonthStartDay(weekYear, selectedMonth + 1);
                     
         setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: weekYear, selectedDayIndex: selectedDay, 
                          selectedWeekDay: weekDay }) 
     }
     else if(pickerOption === 'month'){
         if(monthIndex === 0){    
-           setMonthIndex(isGregorian ? 11 : 12);  // set the month to the previous year last month
-           setYearIndex(curYear => curYear - 1);
+           setMonthIndex(isGregorian ? 11 : 12);  // set the month to the previous year's last month (12th r 13th)
+           setYearIndex(curYear => curYear - 1); // set the year to the previous year
            weekMonth = isGregorian ? 11 : 12;
            weekYear = selectedYear - 1;
         }else{
@@ -77,7 +81,7 @@ const prevMonthHandler = ()=>{
         newSelectedDay = selectedDay - 1
         if(newSelectedDay < 1){
             if(selectedMonth === 0){
-                weekMonth = 11
+                weekMonth = isGregorian ? 11 : 12
                 weekYear = selectedYear - 1
             }else{
                 weekMonth = selectedMonth - 1
@@ -91,7 +95,10 @@ const prevMonthHandler = ()=>{
         if(newSelectedDay < 1){
             newSelectedDay = monthDaysCount
         }
-        weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
+        weekDay = isGregorian ? 
+                        getGregDateWeekDay(weekYear, weekMonth, newSelectedDay) : 
+                        calendarConverter.getETWeekDay(weekYear, weekMonth + 1, newSelectedDay);
+        console.log("Week day: ", weekDay);
         setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
                         selectedDayIndex: newSelectedDay, selectedWeekDay: weekDay })
    }
@@ -102,7 +109,11 @@ const nextMonthHandler = ()=>{
     if(pickerOption === 'year'){
         weekYear = yearIndex + 1
         setYearIndex(curYear => curYear + 1)
-        weekDay = isGregorian ? getGregDateWeekDay(weekYear, selectedMonth, 1) : calendarConverter.getETMonthStartDay(weekYear, selectedMonth + 1);
+        weekDay = isGregorian ? 
+                    getGregDateWeekDay(weekYear, selectedMonth, selectedDay) : 
+                    calendarConverter.getETWeekDay(weekYear, selectedMonth + 1, selectedDay);
+                    //getGregDateWeekDay(weekYear, selectedMonth, 1) : 
+                    //calendarConverter.getETMonthStartDay(weekYear, selectedMonth + 1);
         
         setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: weekYear, selectedDayIndex: selectedDay, 
                          selectedWeekDay: weekDay }) 
@@ -148,7 +159,7 @@ const nextMonthHandler = ()=>{
         newSelectedDay = selectedDay + 1
         monthDaysCount = getMonthDaysCount(selectedMonth, selectedYear)
         if(newSelectedDay > monthDaysCount){
-            if(selectedMonth === 11){
+            if((isGregorian && selectedMonth === 11) || (!isGregorian && selectedMonth === 12)){
                 weekMonth = 0   
                 weekYear = selectedYear + 1
                 setYearIndex(weekYear)  
@@ -162,7 +173,11 @@ const nextMonthHandler = ()=>{
             weekMonth = selectedMonth
             weekYear = selectedYear 
         }
-        weekDay = new Date(weekYear, weekMonth, newSelectedDay).getDay()
+
+        weekDay = isGregorian ? 
+                        getGregDateWeekDay(weekYear, weekMonth, newSelectedDay) : 
+                        calendarConverter.getETWeekDay(weekYear, weekMonth + 1, newSelectedDay);
+        console.log("Week day: ", weekDay);
         setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
                         selectedDayIndex: newSelectedDay, selectedWeekDay:  weekDay})
 }             

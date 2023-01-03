@@ -20,7 +20,7 @@ export default function CalanderSide() {
     const weekdaynames = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH;
 
     const monthName = context.isGregorian ? MONTHSGREG[context.monthSideIndex]: MONTHSETH[context.monthSideIndex];
-    const year = context.yearSideIndex;
+    
 
     useEffect(()=>{
         context.setMonthIndex(context.selectedDate.selectedMonth)
@@ -84,7 +84,7 @@ export default function CalanderSide() {
 
                     <Typography sx={{ pl:{xs:0.8}, minWidth: { xs: 30, sm: 45, md: "12%", lg: 45, xl: 45 },color:"hsla(0, 2%, 11%, 0.819)", textAlign: 'center', fontSize: '90%', fontFamily: 'Montserrat', fontWeight: '500' }}>
                         
-                        { ` ${monthName}  ${year}` }                       
+                        { ` ${monthName}  ${context.yearSideIndex}` }                       
                         </Typography>
                     <Stack direction='row' spacing={2} sx={{ p: 0, mx: 0 }} >
                         <IconButton sx={{ height: 24, width: 24 }} onClick={prevMonthHandler} > <ChevronLeftOutlined sx={{ fontSize: "100%" }} /> </IconButton>

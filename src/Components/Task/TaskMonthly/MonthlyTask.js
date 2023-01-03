@@ -8,22 +8,27 @@ import CalanderSideDay from '../../UI/Button/Calander-Side_Days';
 
 export default function MonthlyTask(props) {
 
-  let context = useContext(CalanderContext);
+  const context = useContext(CalanderContext);
   
-  const [monthDays, setMonthDays] = useState(getMonthDaysGreg(context.monthIndex, context.yearIndex)) 
+  const [monthDays, setMonthDays] = useState(context.isGregorian ? 
+                                                getMonthDaysGreg(context.monthIndex, context.yearIndex) :
+                                                getMonthDaysEthiopic(context.monthIndex, context.yearIndex));
   
   useEffect(()=>{
-      setMonthDays(context.isGregorian? getMonthDaysGreg(context.monthIndex, context.yearIndex) :
-       getMonthDaysEthiopic(context.monthIndex, context.yearIndex));
+
+      setMonthDays(context.isGregorian ? getMonthDaysGreg(context.monthIndex, context.yearIndex) :
+                                        getMonthDaysEthiopic(context.monthIndex, context.yearIndex));
+
      }, [context.monthIndex, context.yearIndex, context.isGregorian])
 
 
 
 
   const dayClickHandler = (day) => {
-      context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, 
-                      selectedYear: day.dayYear, selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay});
-      context.setPickerOption("day");
+      context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, selectedYear: day.dayYear, 
+                               selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay});
+      console.log(day);
+     // context.setPickerOption("day");
   }
 
   return (
@@ -67,38 +72,29 @@ export default function MonthlyTask(props) {
                     fontFamily:'Montserrat',
                     fontWeight:'400',
                     fontSize:{ xs: "90%" },
-                  }}
-                >
+                  }}>
 
-                  <CalanderSideDay  dayClicked={dayClickHandler} 
-                                                
-                                                day={day} />
+                  <CalanderSideDay  dayClicked={dayClickHandler}  day={day} />
 
-                 
-
-                  
-                  
-                  {(dayidx % 2 > 0 && weekidx % 2 > 0 ) ? <> </> : 
+                  {(dayidx % 2 === 0 && weekidx % 2 > 0 ) ? <> </> : 
                   
                   <Box  textOverflow="clip"
-                 
-                    sx={{pt:3, px:1,display:"flex" , flexDirection:"column",width:{xs:"100%"},height:"100%", overflow:"hidden"}}
-                  >
-                  <Button
-                  startIcon={<FiberManualRecord sx={{ color:"#1a73e8", width:"0.8em" , height:"2em"}} />} 
-                  variant="text"
-                  
-                  sx={{
-                    color: "hsla(0, 2%, 11%, 0.819)",
-                    textAlign: "center",
-                    fontSize: "70%",
-                    fontFamily: "Montserrat",
-                    fontWeight: "600",
-                    textOverflow:"clip",
-                    textTransform : "capitalize",
-                   width:"100%" ,height:5,py:1.2  } }>
-                            10 : 15 PM Daily Metting
-                  </Button> 
+                        sx={{pt:3, px:1,display:"flex" , flexDirection:"column",width:{xs:"100%"},height:"100%", overflow:"hidden"}}>
+                    <Button
+                      startIcon={<FiberManualRecord sx={{ color:"#1a73e8", width:"0.8em" , height:"2em"}} />} 
+                      variant="text"
+                      sx={{
+                        color: "hsla(0, 2%, 11%, 0.819)",
+                        textAlign: "center",
+                        fontSize: "70%",
+                        fontFamily: "Montserrat",
+                        fontWeight: "600",
+                        textOverflow:"clip",
+                        textTransform : "capitalize",
+                        width:"100%", height:5, py:1.2  }}>
+
+                          {context.isGregorian ? '10 : 15 PM Daily Metting' : '04 ፡ 15 ጠዋት ደይሊ ሚቲንግ'}
+                    </Button> 
 
                   </Box>
 }
