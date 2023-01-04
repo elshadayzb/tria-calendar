@@ -12,12 +12,13 @@ export default function MonthlyCalander() {
 
   return (
     <Fragment>
-      <Stack display="flex" height="fit-content" flexDirection="row">
+      <Stack display="flex" height="fit-content" flexDirection="row"  width="100%" >
         {weekdays.map((day) => {
           return (
             <Box
               key={day}
               sx={{
+               
                 px: 2,
                 display: "flex",
                 flexDirection: "row",

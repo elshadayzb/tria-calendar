@@ -272,7 +272,7 @@ const getHeaderTitle = () => {
                     maxWidth: { xs: "17ch" },
                     pl: 2,
                     textAlign: "left",
-                    fontSize: "165%",
+                    fontSize: "150%",
                     fontFamily: "Montserrat",
                     fontWeight: "500",
                   }}

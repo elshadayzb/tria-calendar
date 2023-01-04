@@ -35,11 +35,16 @@ export default function MonthlyTask(props) {
           <Stack
             key={weekidx}
             display="flex"
-            height="fit-content"
+            
             overflow="hidden"
+           
             flexDirection="row"
             sx={{
-                   minHeight: monthDays.length === 6 ? "15.885%" : "19%",
+                  // minHeight: "15.885%" //monthDays.length === 6 ? "15.885%" : "19%",
+                
+                  m:0,
+                  width:"100%",
+                  height:"23.9%",
                
           }}
           >
@@ -48,7 +53,9 @@ export default function MonthlyTask(props) {
               return (
                 <Box
                   key={dayidx}
+
                   sx={{
+                   
                     p: 0,
                     display: "flex",
                     flexDirection: "column",
@@ -81,28 +88,28 @@ export default function MonthlyTask(props) {
                   
                   {(dayidx % 2 > 0 && weekidx % 2 > 0 ) ? <> </> : 
                   
-                  <Box  textOverflow="clip"
-                 
-                    sx={{pt:3, px:1,display:"flex" , flexDirection:"column",width:{xs:"100%"},height:"100%", overflow:"hidden"}}
-                  >
-                  <Button
-                  startIcon={<FiberManualRecord sx={{ color:"#1a73e8", width:"0.8em" , height:"2em"}} />} 
-                  variant="text"
-                  
-                  sx={{
-                    color: "hsla(0, 2%, 11%, 0.819)",
-                    textAlign: "center",
-                    fontSize: "70%",
-                    fontFamily: "Montserrat",
-                    fontWeight: "600",
-                    textOverflow:"clip",
-                    textTransform : "capitalize",
-                   width:"100%" ,height:5,py:1.2  } }>
-                            10 : 15 PM Daily Metting
-                  </Button> 
+                      <Box  textOverflow="clip"
+                    
+                        sx={{pt:3, px:1,display:"flex" , flexDirection:"column",width:{xs:"100%"},height:"100%", overflow:"hidden"}}
+                      >
+                      <Button
+                      startIcon={<FiberManualRecord sx={{ color:"#1a73e8", width:"0.8em" , height:"2em"}} />} 
+                      variant="text"
+                      
+                      sx={{
+                        color: "hsla(0, 2%, 11%, 0.819)",
+                        textAlign: "center",
+                        fontSize: "70%",
+                        fontFamily: "Montserrat",
+                        fontWeight: "600",
+                        textOverflow:"clip",
+                        textTransform : "capitalize",
+                      width:"100%" ,height:5,py:1.2  } }>
+                                10 : 15 PM Daily Metting
+                      </Button> 
 
-                  </Box>
-}
+                      </Box>
+                  }
 
                 </Box>
               );

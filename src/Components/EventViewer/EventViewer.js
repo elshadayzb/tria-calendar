@@ -16,9 +16,9 @@ export default function EventViewer()
    return(
      <Grid  xs={9.8} display="flex" 
          
-         flexDirection={(context.pickerOption === "month") ? "column" : "row"}  
+         flexDirection={(context.pickerOption === "month") ? "row" : "row"}  
          
-         container item overflow="scroll" sx={{ height:"100%" , bgcolor:"blueviolet"    }}>
+         container item  sx={{   }}>
     
 
       { context.pickerOption === "day" && <DailyCalander /> }

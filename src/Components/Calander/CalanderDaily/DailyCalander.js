@@ -19,11 +19,6 @@ export default function DailyCalander()
     let weekdays = context.isGregorian ? WEEKDAYSGREG : WEEKDAYSETH;
     
 
-
-
-
-
-
     return(
             <Fragment >
          <AppBar  position="sticky" sx={{ height:"fit-content", bgcolor:"white" , boxShadow : "0 0 0" }} >

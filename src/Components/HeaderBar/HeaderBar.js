@@ -11,6 +11,7 @@ import {
   Container,
   SvgIcon,
   Switch,
+  useMediaQuery,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { Fragment, useContext } from "react";
@@ -21,20 +22,29 @@ import CalanderViewType from "../CalanderViewTypeButton-Header/CalanderViewType"
 export default function HeaderBar() {
 
   const context = useContext(CalanderContext);
-
+  const breakptreached = useMediaQuery('(min-width:744px)')
   return (
     <Fragment>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{  flexGrow:1  }}>
         <AppBar
           elevation={0}
-          position="fixed"
           sx={{
+            
+            position : {xs : "fixed"},
+            left:{xs : 0  , md:"auto" },
+            display : "block",
             bgcolor: "hsl(0, 0%, 100%)",
             color: "hsl(0, 0%, 26%)",
             borderBlockColor: "hsla(0, 1%, 74%, 0.542)",
             borderBottomStyle: "solid",
             borderBlockWidth: 1,
             px: 0,
+            minWidth:(!breakptreached) ? "50rem" : "auto",
+            
+            
+            //bgcolor:"blue"
+           
+            
           }}
         >
           <Toolbar
@@ -77,8 +87,10 @@ export default function HeaderBar() {
                   fontSize: "150%",
                   fontFamily: "Montserrat",
                   fontWeight: "500",
-                  minWidth: { xs: "12ch"},
-                    maxWidth: { xs: "12ch" }
+                  display:{xs : "none" , md : "block"},
+                  minWidth: { md: "5ch" ,lg: "8ch" ,xl: "12ch" },
+                  maxWidth: { md: "5ch" ,lg: "8ch" ,xl: "12ch" }
+                 
                 }}
               >
                 { context.isGregorian ?  `Calender` : `የቀን መቁጠሪያ` }  
@@ -88,9 +100,10 @@ export default function HeaderBar() {
                 sx={{
                   color: "#3c4043",
                   display: "flex",
-                  mx: 3,
+                  mx: "3%",
                   flexDirection: "row",
                   alignItems: "center",
+                 
                 }}
               >
                
@@ -101,7 +114,10 @@ export default function HeaderBar() {
             </Stack>
              
 
-            <Stack direction="row" spacing={1} alignItems="center" >
+            <Stack direction="row" spacing={1}  alignItems="center" sx={{
+               mr:1
+              
+            }} >
                 <p style={{borderBottom: !context.isGregorian ? "3px solid #28f" : ""}}>ኢት</p>
                 <Switch
                     checked={context.isGregorian} 

@@ -42,7 +42,8 @@ export default function CalanderViewType() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={<KeyboardArrowDown />}
-        sx={{borderColor: "hsl(0, 0%, 52%)",
+        sx={{
+        borderColor: "hsl(0, 0%, 52%)",
         borderStyle: "solid",
         borderBlockWidth: 1,
         color: '#3c4043',
