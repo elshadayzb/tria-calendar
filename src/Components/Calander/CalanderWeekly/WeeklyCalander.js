@@ -1,43 +1,36 @@
-  import {
+import { Fragment , useContext, useEffect } from "react";
+import {
     AppBar,
     Typography,
     Box,
     Toolbar,
     Grid,
   } from "@mui/material";
-  import { Stack } from "@mui/system";
-import { Fragment , useContext, useEffect } from "react";
+import { Stack } from "@mui/system";
 import { HOURS, WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
 import CalanderContext from "../../../Store/calander-store";
-import { getSelectedWeekGreg } from "../../../Util/CalanderFunction";
+import { getSelectedWeek } from "../../../Util/CalanderFunction";
 import CalanderSideDay from "../../UI/Button/Calander-Side_Days";
-
-
-
 
 
 export default function WeeklyCalander()
 {
 
-
-
-    let context = useContext(CalanderContext);
+    const context = useContext(CalanderContext);
     
-    let weekdays = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH ;
-
-
-
+    const weekdays = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH ;
 
 
     useEffect(()=>{
-        context.setSelectedWeek(getSelectedWeekGreg(context.selectedDate))
-    }, [context.selectedDate])
+        context.setSelectedWeek(getSelectedWeek(context.selectedDate, context.isGregorian));
+    }, [context.selectedDate, context.isGregorian])
     
     
     const dayClickHandler = (day) => {
         context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, selectedYear: day.dayYear, 
-                            selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay})
-        context.setPickerOption("day")
+                                selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay});
+        console.log(day);
+       // context.setPickerOption("day");
     }
 
 
@@ -111,7 +104,7 @@ export default function WeeklyCalander()
                                 flexShrink: 1,
                                 flexBasis: "0%",
                                 height: { xs: "100%" },
-                                color: "hsla(228, 12%, 48%, 0.868)",
+                                color: "hsla(228, 12%, 25%, 0.868)",
                                 textAlign: "center",
                                 fontSize: "150%",
                                 fontFamily: "Montserrat",

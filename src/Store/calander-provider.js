@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getSelectedWeekGreg } from "../Util/CalanderFunction";
+import { getSelectedWeek } from "../Util/CalanderFunction";
 import CalanderContext from "./calander-store";
 import CalendarConverter from "../Util/CalendarConverter";
 
@@ -26,7 +26,7 @@ export function CalanderContextProvider(props)
             {selectedDay: etToday.day, selectedMonth: etToday.month - 1, selectedYear: etToday.year, selectedDayIndex: etToday.day, selectedWeekDay: weekDay}
         )
     const [pickerOption, setPickerOption] = useState("month")
-    const [selectedWeek, setSelectedWeek] = useState(getSelectedWeekGreg(selectedDate))
+    const [selectedWeek, setSelectedWeek] = useState(getSelectedWeek(selectedDate, isGregorian))
     
     const values= {
         monthIndex: monthIndex,

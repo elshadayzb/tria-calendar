@@ -16,6 +16,7 @@ import CalanderContext from "../../Store/calander-store";
 import CalanderHeader from "../Calander-Header/Calander-Header";
 import CalanderViewType from "../CalanderViewTypeButton-Header/CalanderViewType";
 import CalendarConverter from "../../Util/CalendarConverter";
+import { getSelectedWeek } from "../../Util/CalanderFunction";
 
 export default function HeaderBar() {
 
@@ -57,7 +58,9 @@ export default function HeaderBar() {
 
     context.setMonthSideIndex(convertedSelectedDate.month - 1) // set the month side index with the converted month
     context.setYearSideIndex(convertedSelectedDate.year) // set the year side index with the converted year 
-
+    context.setSelectedWeek(getSelectedWeek({selectedDay: convertedSelectedDate.day, 
+                                             selectedMonth: convertedSelectedDate.month - 1, 
+                                             selectedYear: convertedSelectedDate.year}, !context.isGregorian));
     context.setIsGregorian(prevState => !prevState); 
   }
 
@@ -154,7 +157,7 @@ export default function HeaderBar() {
                         }}	/>
                 <p style={{borderBottom: context.isGregorian ? "3px solid #28f" : ""}}>EN</p>
             </Stack>    
-            {/* <CalanderViewType /> */}
+            <CalanderViewType />
           </Toolbar>
         </AppBar>
       </Box>

@@ -85,12 +85,15 @@ export default function CalanderViewType() {
                     }}
                  >
     
-                    <Typography>
-                        { context.isGregorian ? VIEWOPTIONSEN[optionidx] : VIEWOPTIONSAMH[optionidx]}
-                    </Typography>
-                    <Typography>
-                        {context.isGregorian ? VIEWOPTIONSEN[optionidx][0] : VIEWOPTIONSAMH[optionidx][0]}
-                    </Typography>
+                  {optionidx % 3 !== 0 &&
+                    <>
+                      <Typography>
+                          { context.isGregorian ? VIEWOPTIONSEN[optionidx] : VIEWOPTIONSAMH[optionidx]}
+                      </Typography>
+                      <Typography>
+                          {context.isGregorian ? VIEWOPTIONSEN[optionidx][0] : VIEWOPTIONSAMH[optionidx][0]}
+                      </Typography>
+                    </>}
     
                 </Stack>
             

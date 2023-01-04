@@ -153,9 +153,12 @@ export const getMonthDaysEthiopic = (month, year) =>{
     return monthDays;
 }
 
-export const getSelectedWeekGreg = ({selectedDay, selectedMonth, selectedYear})=>{
+export const getSelectedWeek = (selectedDate, isGregorian)=>{
     //console.log("Selected Day", selectedDay, "selected Month: ", selectedMonth, "selected year: ", selectedYear)
-    const selectedMonthDays = getMonthDaysGreg (selectedMonth, selectedYear)
+    const {selectedDay, selectedMonth, selectedYear} = selectedDate;
+    const selectedMonthDays = isGregorian ? 
+                                getMonthDaysGreg (selectedMonth, selectedYear) : 
+                                getMonthDaysEthiopic(selectedMonth, selectedYear)
     let i, j;
     for( i = 0; i < selectedMonthDays.length; i++){
         let week = selectedMonthDays[i]
