@@ -3,7 +3,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { AddRounded, ArrowDropDown, KeyboardArrowDown } from "@mui/icons-material";
 import { Stack } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import { useContext, useState } from "react";
 import CalanderContext from "../../Store/calander-store";
 
@@ -14,6 +14,7 @@ let optionsAM = ["ሁነት" , "ተግባር"]
 
 export default function CreateEventTask() {
 
+  let breakptreached = useMediaQuery('(min-width:1297px)')
 
   let context = useContext(CalanderContext);
 
@@ -33,41 +34,66 @@ export default function CreateEventTask() {
   };
 
   return (
-    <div>
-        <Button
-        variant="outlined"
+    <div >
+
+
+        <Stack 
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        endIcon={<ArrowDropDown sx={{color:"hsla(0, 0%, 40%, 0.849)",height:"1.5em",width:"1.5em" }} />}
-        startIcon = {<AddRounded sx={{ color:"hsla(0, 0%, 40%, 0.849)", height:"2.5em",width:"2.5em" }}/>}
         sx={{
         mx:{xs:2},
         my:{xs:5},
-        height:60,
-        width:175,
+        height : "auto",
+        width:"70%",
         borderRadius:10,
         borderColor: "hsl(0, 0%, 52%)",
         borderStyle: "none",
         borderBlockWidth: 1,
         color: '#3c4043',
         boxShadow: "0px 0px 6px hsla(0, 1%, 45%, 0.801)",
-        py: 0.5,
-        px:0.1,
+        px: "4%",
+        py: "4%",
         "&:hover": {
           borderColor: "hsl(0, 0%, 52%)",
           borderStyle: "none",
           borderBlockWidth: 1,
           color: "inherit",
           boxShadow: "0px 5px 10px hsla(0, 1%, 36%, 0.842)"
-        }
-        
+        },
+        display: "flex",
+        flexDirection: "row",
+        justifyContent:"space-between",
+        alignItems:"center",
+        fontSize:"62%"
       }}
-      >
-        {context.isGregorian ? `Create` : `ፍጠር `}
-      </Button>
+
+        >
+
+          <AddRounded sx={{ color:"hsla(0, 0%, 40%, 0.849)", height:"20%",width:"20%"   }}/>
+
+          <Typography 
+          sx={{
+            color: "#3c4043",
+            textAlign: "left",
+            fontSize:  {xs : "0.05em" , sm : "120%" , md : !breakptreached ? "2em": "2.5em" },
+            fontFamily: "Montserrat",
+            fontWeight: "500"
+          }}
+          >
+              {context.isGregorian ? `Create` : `ፍጠር `}
+          </Typography>
+
+
+          <ArrowDropDown sx={{color:"hsla(0, 0%, 40%, 0.849)",height:"20%",width:"20%" }} />
+
+
+
+
+        </Stack>
+
       <Menu
         anchorOrigin={{
             vertical: 'bottom',
