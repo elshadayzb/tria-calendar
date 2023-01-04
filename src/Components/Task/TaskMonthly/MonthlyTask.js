@@ -27,7 +27,8 @@ export default function MonthlyTask(props) {
   }
 
   return (
-    <Fragment>
+    <Fragment  sx={{
+    }}  >
       {monthDays.map((row,weekidx) => {
         return (
           //"15.885%":"19%"

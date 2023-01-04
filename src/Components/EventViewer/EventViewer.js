@@ -18,7 +18,7 @@ export default function EventViewer()
          
          flexDirection={(context.pickerOption === "month") ? "column" : "row"}  
          
-         container item overflow="auto" sx={{  height:"89.3vh"}}>
+         container item overflow="scroll" sx={{ height:"100%" , bgcolor:"blueviolet"    }}>
     
 
       { context.pickerOption === "day" && <DailyCalander /> }

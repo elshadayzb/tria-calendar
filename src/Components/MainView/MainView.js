@@ -8,7 +8,8 @@ import SideBar from '../SideBar/SideBar';
 export default function MainView()
 {
     return (
-    <Grid container pt={1.6}  >
+    <Grid container pt={1.6} sx={{ height:"90vh" , bgcolor:"blue" }}  >
+            
             <SideBar />
             <EventViewer />
        
