@@ -10,7 +10,9 @@ import CalanderSideDay from '../UI/Button/Calander-Side_Days';
 
 export default function CalanderSide() {
 
-    let breakptreached = useMediaQuery('(min-width:1164px)')
+    let breakptreached = useMediaQuery('(min-width:671px)');
+    let breakptreachedxs = useMediaQuery('(min-width:560px)');
+    
     let context = useContext(CalanderContext);
 
     const [monthDays, setMonthDays] = useState(getMonthDaysGreg(context.monthSideIndex, context.yearSideIndex))
@@ -21,7 +23,7 @@ export default function CalanderSide() {
         (context.monthSideIndex + 4)];
     let year = context.isGregorian ? context.yearSideIndex : (context.monthSideIndex > 7 ? (context.yearSideIndex - 7) : (context.yearSideIndex - 8));
 
-    
+
     useEffect(()=>{
         console.log(`running use effect 1 ${context.monthSideIndex} `)      
       setMonthDays(context.isGregorian? getMonthDaysGreg(context.monthSideIndex, context.yearSideIndex): getMonthDaysEthiopic(context.monthSideIndex, context.yearSideIndex))   
@@ -69,18 +71,21 @@ export default function CalanderSide() {
 
 
     return (
-      <Grid container item xs={12} sx={{}}>
-        {console.log(` A render has occured`)}
+      <Grid container item xs={12} sx={{
+        mt: "15%"
+      }}>
+      
         <Grid
           container
           display="flex"
-          direction="column"
+          flexDirection="column"
+          justifyContent="stretch"
           sx={{
-            pl: { xs: 2 },
-            pr: { xs: 1.5 },
+            pl: {xs : !breakptreachedxs ? "2em" : "3em" , sm : "3.5%" , md : "5%" , lg : "4%" },
+            pr: {xs : !breakptreachedxs ? "2em" : "3em" , sm : "3.5%" , md : "5%" , lg : "4%" },
             pb: { xs: 1 },
-            mr: 3,
-            fontSize: {xs : "60%" , sm : "60%" , md : "60%" , lg : "20%"  },
+            mr: {xs : !breakptreachedxs ? "5%" : "2%" , sm : "1.5%" , md : "2%" , lg : "2%" },
+            fontSize: { xs : !breakptreachedxs ? "0.003%" : "5%" , sm: "45%" ,  md: "50%"  ,lg : "60%" },
             // minWidth: "248px",
             // maxWidth: "248px",
           }}
@@ -90,23 +95,24 @@ export default function CalanderSide() {
             container
             item
             display="flex"
-            px="0%"
-            py="2%"
+            pl="4%"
+            py="0.3%"
             justifyContent="space-between"
             alignItems="center"
             flexDirection="row"
+            
             mb={1}
             fontSize="inherit"
+          //  bgcolor="plum"
           >
             <Typography
               sx={{
-                bgcolor: "cornflowerblue",
-                pl: { xs: 0.8 },
-                //minWidth: { xs: 30, sm: 45, md: "12%", lg: 45, xl: 45 },
+              //  bgcolor: "cornflowerblue",
+                pl: { xs: 0 },
                 color: "hsla(0, 2%, 11%, 0.819)",
                 textAlign: "center",
                 height:"fit-content",
-                fontSize: "2em",
+                fontSize: {xs : !breakptreachedxs ? "13333em" : "14em" , sm : "1.7em" , md : "1.9em" , lg : "1.8em" },
                 fontFamily: "Montserrat",
                 fontWeight: "500",
               }}
@@ -119,8 +125,8 @@ export default function CalanderSide() {
                 width: "25%",
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "space-between",
-                bgcolor: "palegoldenrod",
+                justifyContent: "space-around",
+                //bgcolor: "palegoldenrod",
                 fontSize: "inherit"
               }}
             >
@@ -131,8 +137,8 @@ export default function CalanderSide() {
                 <ChevronLeftOutlined
                   sx={{
                     color: "hsla(0, 0%, 40%, 0.849)",
-                    height: "1.3em",
-                    width: "1.3em",
+                    height: {xs : !breakptreachedxs ? "0.3em" : "0.4em" , sm : "0.7em" , md : "0.8em" , lg : "1em" },
+                    width: {xs : !breakptreachedxs ? "0.3em" : "0.4em" , sm : "0.8em" , md : "0.8em" , lg : "1em" },
                   }}
                 />
               </IconButton>
@@ -143,8 +149,8 @@ export default function CalanderSide() {
                 <ChevronRightOutlined
                   sx={{
                     color: "hsla(0, 0%, 40%, 0.849)",
-                    height: "1.3em",
-                    width: "1.3em",
+                    height: {xs : !breakptreachedxs ? "0.3em" : "0.4em" , sm : "0.7em" , md : "0.8em" , lg : "1em" },
+                    width: {xs : !breakptreachedxs ? "0.3em" : "0.4em" , sm : "0.8em" , md : "0.8em" , lg : "1em" },
                   }}
                 />
               </IconButton>
@@ -158,16 +164,20 @@ export default function CalanderSide() {
             display="flex"
             fontFamily="Montserrat"
             fontWeight="600"
-            fontSize={{ xs: 10 }}
+            flexWrap="wrap"
+            fontSize="inherit"
             flexDirection="row"
-            justifyContent="space-between"
+            justifyContent="space-around"
+           
+          //  bgcolor="blue"
           >
             {weekdaynames.map((day) => {
               return (
                 <Typography
                   key={Math.random()}
                   sx={{
-                    minWidth: { xs: 24 },
+                    //bgcolor:"palegoldenrod",
+                    minWidth:{xs:!breakptreached ? 10 : 20 , sm : !breakptreached ? 22 : 24 },
                     textAlign: "center",
                     fontSize: "inherit",
                     color: "inherit",
@@ -186,10 +196,10 @@ export default function CalanderSide() {
             color="hsla(0, 2%, 11%, 0.819)"
             flexDirection="row"
             flexWrap="wrap"
-            justifyContent="space-around"
+            justifyContent="space-between"
             fontFamily="Montserrat"
             fontWeight="600"
-            fontSize={{ xs: 10 }}
+            fontSize="inherit"
             container
           >
             {monthDays.map((week, weekidx) => {
@@ -201,7 +211,8 @@ export default function CalanderSide() {
                   py="1%"
                   display="flex"
                   width="100%"
-                  justifyContent="space-between"
+                  justifyContent="space-around"
+                  fontSize="inherit"
                 >
                   {week.map((day, dayidx) => {
                     // console.log(`the counter ${counter}`);
@@ -211,6 +222,8 @@ export default function CalanderSide() {
                         key={dayidx}
                         day={day}
                         isSide={true}
+                        minsize={{xs:!breakptreached ? 10 : 20 , sm : !breakptreached ? 22 : 24 }}
+
                       />
                     );
                   })}

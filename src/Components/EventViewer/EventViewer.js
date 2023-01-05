@@ -1,4 +1,4 @@
-import {Grid} from '@mui/material';
+import {Grid, useMediaQuery} from '@mui/material';
 import { useContext } from 'react';
 import CalanderContext from '../../Store/calander-store';
 import DailyCalander from '../Calander/CalanderDaily/DailyCalander';
@@ -11,14 +11,23 @@ import YearlyCalander from '../Calander/CalanderYearly/YearlyCalander';
 export default function EventViewer()
 {
    let context = useContext(CalanderContext);
-
+   let breakptreached =   useMediaQuery('(min-width:734px)')
+    
 
    return(
-     <Grid  xs={9.8} display="flex" 
+     <Grid   
+         display="flex" 
          
          flexDirection={(context.pickerOption === "month") ? "row" : "row"}  
          
-         container item  sx={{   }}>
+         container item  
+         
+         xs={8}
+         sm={!breakptreached ? 8.5 :8.8}
+         md={9.2}
+         lg={9.8}
+         
+        >
     
 
       { context.pickerOption === "day" && <DailyCalander /> }
