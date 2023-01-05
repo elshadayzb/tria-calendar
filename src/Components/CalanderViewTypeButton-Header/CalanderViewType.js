@@ -82,10 +82,7 @@ export default function CalanderViewType() {
                         width:"100%",
                         justifyContent:'space-between',
                         py:1
-                    }}
-                 >
-    
-                  {optionidx % 3 !== 0 &&
+                    }}>
                     <>
                       <Typography>
                           { context.isGregorian ? VIEWOPTIONSEN[optionidx] : VIEWOPTIONSAMH[optionidx]}
@@ -93,7 +90,7 @@ export default function CalanderViewType() {
                       <Typography>
                           {context.isGregorian ? VIEWOPTIONSEN[optionidx][0] : VIEWOPTIONSAMH[optionidx][0]}
                       </Typography>
-                    </>}
+                    </>
     
                 </Stack>
             

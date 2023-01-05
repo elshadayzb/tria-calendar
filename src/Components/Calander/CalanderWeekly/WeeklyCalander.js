@@ -21,16 +21,15 @@ export default function WeeklyCalander()
     const weekdays = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH ;
 
 
-    useEffect(()=>{
+    /* useEffect(()=>{
         context.setSelectedWeek(getSelectedWeek(context.selectedDate, context.isGregorian));
-    }, [context.selectedDate, context.isGregorian])
+    }, [context.selectedDate, context.isGregorian]) */
     
     
     const dayClickHandler = (day) => {
         context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, selectedYear: day.dayYear, 
                                 selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay});
-        console.log(day);
-       // context.setPickerOption("day");
+       context.setPickerOption("day");
     }
 
 

@@ -25,27 +25,20 @@ export default function HeaderBar() {
 
   const calendarConverterHandler = () => {
     let convertedSelectedDate;
-    //let weekDay;
+
     if(context.isGregorian){
       // convert the selected Gregorain date to Ethiopic
       convertedSelectedDate = calendarConverter.convertToEC(context.selectedDate.selectedYear, 
                                                             context.selectedDate.selectedMonth + 1, 
                                                             context.selectedDate.selectedDay);
 
-      /* weekDay = calendarConverter.getETWeekDay(convertedSelectedDate.year, 
-                                                 convertedSelectedDate.month, 
-                                                 convertedSelectedDate.day) */
-
     }else{
       // convert the selected Ethiopic date to Gregorian
       convertedSelectedDate = calendarConverter.convertToGC(context.selectedDate.selectedYear, 
                                                             context.selectedDate.selectedMonth + 1, 
                                                             context.selectedDate.selectedDay);
-
-      /* weekDay = new Date(convertedSelectedDate.year, 
-                        convertedSelectedDate.month - 1, 
-                        convertedSelectedDate.day).setFullYear(convertedSelectedDate.year).getDay() */
     }
+
     // set the selected date to the converted date
     context.setSelectedDate({selectedDay: convertedSelectedDate.day, 
                              selectedMonth: convertedSelectedDate.month - 1, 
@@ -63,7 +56,8 @@ export default function HeaderBar() {
                                              selectedYear: convertedSelectedDate.year}, !context.isGregorian));
     context.setIsGregorian(prevState => !prevState); 
   }
-
+  
+  
 
   return (
     <Fragment>

@@ -1,10 +1,10 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import {ChevronLeftOutlined, ChevronRightOutlined, } from "@mui/icons-material";
 import { IconButton, Typography, Button } from "@mui/material";
 import { Stack } from "@mui/system";
 import CalanderContext from "../../Store/calander-store";
 import { MONTHSETH, MONTHSETHSHORT, MONTHSGREG, MONTHSGREGDAYS, MONTHSGREGSHORT } from "../../Util/CalanderConstants";
-import { getSelectedWeek, getGregMonthDaysCount, getEthMonthDaysCount, getGregDateWeekDay } from "../../Util/CalanderFunction";
+import { getSelectedWeek, getGregMonthDaysCount, getEthMonthDaysCount, getGregDateWeekDay} from "../../Util/CalanderFunction";
 import CalendarConverter from "../../Util/CalendarConverter";
 
 export default function CalanderHeader()
@@ -16,7 +16,7 @@ const {monthIndex, setMonthIndex, yearIndex, setYearIndex,  pickerOption,
 const calendarConverter = new CalendarConverter();
 
 const {selectedDay, selectedMonth, selectedYear} = selectedDate; 
-let monthDaysCount, weekYear, weekMonth, weekDay, newSelectedDay, gregDate;
+let monthDaysCount, currentYear, currentMonth, weekDay, newSelectedDay, gregDate;
 
 const getMonthDaysCount = (month, year) => {
     return isGregorian ? getGregMonthDaysCount(month, year) : getEthMonthDaysCount(month, year);
@@ -24,124 +24,130 @@ const getMonthDaysCount = (month, year) => {
 
 const prevMonthHandler = ()=>{
     if(pickerOption === 'year'){
-        weekYear = yearIndex - 1
+        currentYear = yearIndex - 1
         setYearIndex(curYear => curYear - 1)
         weekDay = isGregorian ?
-                    getGregDateWeekDay(weekYear, selectedMonth, selectedDay) : 
-                    calendarConverter.getETWeekDay(weekYear, selectedMonth + 1, selectedDay); 
-                    //getGregDateWeekDay(weekYear, selectedMonth, 1) : 
-                    //calendarConverter.getETMonthStartDay(weekYear, selectedMonth + 1);
+                    getGregDateWeekDay(currentYear, selectedMonth, selectedDay) : 
+                    calendarConverter.getETWeekDay(currentYear, selectedMonth + 1, selectedDay); 
+                    //getGregDateWeekDay(currentYear, selectedMonth, 1) : 
+                    //calendarConverter.getETMonthStartDay(currentYear, selectedMonth + 1);
                     
-        setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: weekYear, selectedDayIndex: selectedDay, 
+        setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: currentYear, selectedDayIndex: selectedDay, 
                          selectedWeekDay: weekDay }) 
     }
     else if(pickerOption === 'month'){
         if(monthIndex === 0){    
            setMonthIndex(isGregorian ? 11 : 12);  // set the month to the previous year's last month (12th r 13th)
            setYearIndex(curYear => curYear - 1); // set the year to the previous year
-           weekMonth = isGregorian ? 11 : 12;
-           weekYear = selectedYear - 1;
+           currentMonth = isGregorian ? 11 : 12;
+           currentYear = selectedYear - 1;
         }else{
             setMonthIndex(curMonth =>  curMonth - 1);
-            weekMonth = selectedMonth - 1;
-            weekYear = selectedYear;
+            currentMonth = selectedMonth - 1;
+            currentYear = selectedYear;
         }  
 
-        weekDay = isGregorian ? getGregDateWeekDay(weekYear, weekMonth, 1) : calendarConverter.getETMonthStartDay(weekYear, weekMonth + 1);
+        weekDay = isGregorian ? getGregDateWeekDay(currentYear, currentMonth, 1) : calendarConverter.getETMonthStartDay(currentYear, currentMonth + 1);
 
-        setSelectedDate({selectedDay: 1, selectedMonth: weekMonth, selectedYear: weekYear, selectedDayIndex: 1, 
+        setSelectedDate({selectedDay: 1, selectedMonth: currentMonth, selectedYear: currentYear, selectedDayIndex: 1, 
                          selectedWeekDay: weekDay })            
    }else if(pickerOption === "week"){
         newSelectedDay = selectedDay - 7;
         if(newSelectedDay < 1){
             if(selectedMonth === 0){
-                weekMonth = isGregorian ? 11 : 12;   
-                weekYear = selectedYear - 1;  
-                setYearIndex(weekYear)
+                currentMonth = isGregorian ? 11 : 12;   
+                currentYear = selectedYear - 1;  
+                setYearIndex(currentYear)
             }else{
-                weekMonth = selectedMonth - 1;
-                weekYear = selectedYear;   
+                currentMonth = selectedMonth - 1;
+                currentYear = selectedYear;   
             }
-            setMonthIndex(weekMonth);
+            setMonthIndex(currentMonth);
         }
         else{
-            weekMonth = selectedMonth;
-            weekYear = selectedYear; 
+            currentMonth = selectedMonth;
+            currentYear = selectedYear; 
         }
 
-        monthDaysCount = getMonthDaysCount(weekMonth, weekYear)
+        monthDaysCount = getMonthDaysCount(currentMonth, currentYear)
 
         if(newSelectedDay < 1 ){
             newSelectedDay += monthDaysCount;
             // 13th Ethiopic month has 5 or 6 days
             // previous week from the 1st month can jump the whole 13th month and go the 12th month
-            if(!isGregorian && newSelectedDay < 1 && weekMonth === 12){
-                weekMonth -= 1;
-                newSelectedDay = getMonthDaysCount(weekMonth, weekYear) + newSelectedDay;
+            if(!isGregorian && newSelectedDay < 1 && currentMonth === 12){
+                currentMonth -= 1;
+                newSelectedDay = getMonthDaysCount(currentMonth, currentYear) + newSelectedDay;
             }              
         }
-        console.log("Week Year: ", weekYear, " Week Month: ", weekMonth, " selected Day: ", newSelectedDay)
+        
         weekDay = isGregorian ?
-                    getGregDateWeekDay(weekYear, weekMonth, newSelectedDay) : 
-                    calendarConverter.getETWeekDay(weekYear, weekMonth + 1, newSelectedDay); 
+                    getGregDateWeekDay(currentYear, currentMonth, newSelectedDay) : 
+                    calendarConverter.getETWeekDay(currentYear, currentMonth + 1, newSelectedDay); 
 
-        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
+        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: currentMonth, selectedYear: currentYear, 
                         selectedDayIndex: newSelectedDay, selectedWeekDay: weekDay })
+        setSelectedWeek(getSelectedWeek({selectedDay: newSelectedDay, selectedMonth: currentMonth, selectedYear: currentYear}, isGregorian))
    }else if(pickerOption === 'day'){
-        newSelectedDay = selectedDay - 1
+        // get the previous day 
+        newSelectedDay = selectedDay - 1;
+        // check if the previous day go to the previous year or previous month
         if(newSelectedDay < 1){
+            // current selected day is the first day of the year
+            // the previous day is the last day of the previous year
             if(selectedMonth === 0){
-                weekMonth = isGregorian ? 11 : 12
-                weekYear = selectedYear - 1
+                currentMonth = isGregorian ? 11 : 12; // go to the last month of the previous year 
+                currentYear = selectedYear - 1;
             }else{
-                weekMonth = selectedMonth - 1
-                weekYear = selectedYear
+                currentMonth = selectedMonth - 1; // go to the previous month
+                currentYear = selectedYear;
             }
         }else{
-            weekMonth = selectedMonth
-            weekYear = selectedYear
+            
+            currentMonth = selectedMonth
+            currentYear = selectedYear
         }
-        monthDaysCount = getMonthDaysCount(weekMonth, weekYear)
+        // get the number of days for the previous month
+        monthDaysCount = getMonthDaysCount(currentMonth, currentYear)
         if(newSelectedDay < 1){
-            newSelectedDay = monthDaysCount
+            newSelectedDay = monthDaysCount; // go to the last day of the previous month
         }
         weekDay = isGregorian ? 
-                        getGregDateWeekDay(weekYear, weekMonth, newSelectedDay) : 
-                        calendarConverter.getETWeekDay(weekYear, weekMonth + 1, newSelectedDay);
+                        getGregDateWeekDay(currentYear, currentMonth, newSelectedDay) : 
+                        calendarConverter.getETWeekDay(currentYear, currentMonth + 1, newSelectedDay);
         
-        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
+        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: currentMonth, selectedYear: currentYear, 
                         selectedDayIndex: newSelectedDay, selectedWeekDay: weekDay })
+        
    }
 
 }
 const nextMonthHandler = ()=>{
     
     if(pickerOption === 'year'){
-        weekYear = yearIndex + 1
+        currentYear = yearIndex + 1
         setYearIndex(curYear => curYear + 1)
         weekDay = isGregorian ? 
-                    getGregDateWeekDay(weekYear, selectedMonth, selectedDay) : 
-                    calendarConverter.getETWeekDay(weekYear, selectedMonth + 1, selectedDay);
-                    //getGregDateWeekDay(weekYear, selectedMonth, 1) : 
-                    //calendarConverter.getETMonthStartDay(weekYear, selectedMonth + 1);
+                    getGregDateWeekDay(currentYear, selectedMonth, selectedDay) : 
+                    calendarConverter.getETWeekDay(currentYear, selectedMonth + 1, selectedDay);
         
-        setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: weekYear, selectedDayIndex: selectedDay, 
+        setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: currentYear, selectedDayIndex: selectedDay, 
                          selectedWeekDay: weekDay }) 
     }
     else if (pickerOption === 'month'){
         if((isGregorian && monthIndex === 11) || (!isGregorian && monthIndex === 12)){
             setMonthIndex(0)
             setYearIndex(curYear => curYear + 1)  
-            weekMonth = 0
-            weekYear = selectedYear + 1             
+            currentMonth = 0
+            currentYear = selectedYear + 1             
         }else{
             setMonthIndex(curMonth =>  curMonth + 1)
-            weekMonth = selectedMonth + 1
-            weekYear = selectedYear
+            currentMonth = selectedMonth + 1
+            currentYear = selectedYear
         }
         
-        weekDay = isGregorian ? getGregDateWeekDay(weekYear, weekMonth, 1) : calendarConverter.getETMonthStartDay(weekYear, weekMonth + 1);
-        setSelectedDate({selectedDay: 1, selectedMonth: weekMonth, selectedYear: weekYear, selectedDayIndex: 1, 
+        weekDay = isGregorian ? getGregDateWeekDay(currentYear, currentMonth, 1) : calendarConverter.getETMonthStartDay(currentYear, currentMonth + 1);
+        setSelectedDate({selectedDay: 1, selectedMonth: currentMonth, selectedYear: currentYear, selectedDayIndex: 1, 
                          selectedWeekDay: weekDay })  
 
     }else if(pickerOption === "week"){
@@ -150,61 +156,67 @@ const nextMonthHandler = ()=>{
         if(newSelectedDay > monthDaysCount){
             if((isGregorian && selectedMonth === 11) || (!isGregorian && selectedMonth === 12)){
                 // next week from the last month, December or Pagume, can go to the 1st month of next year
-                weekMonth = 0;   
-                weekYear = selectedYear + 1;
-                setYearIndex(weekYear);  
+                currentMonth = 0;   
+                currentYear = selectedYear + 1;
+                setYearIndex(currentYear);  
             }else if(!isGregorian && (selectedMonth === 11) && 
                         (newSelectedDay > (monthDaysCount + getEthMonthDaysCount(12, selectedYear)))){
                 // 13th Ethiopic month has 5 or 6 days
                 // next week from the 11th month can jump the whole 13th month and go to the 1st month of next year
-                weekMonth = 0;   
-                weekYear = selectedYear + 1;
-                setYearIndex(weekYear);
+                currentMonth = 0;   
+                currentYear = selectedYear + 1;
+                setYearIndex(currentYear);
                 monthDaysCount = monthDaysCount + getMonthDaysCount(12, selectedYear);
                 
             }else{
                 // next Week from the last days of any other month go to the next month
-                weekMonth = selectedMonth + 1;
-                weekYear = selectedYear;   
+                currentMonth = selectedMonth + 1;
+                currentYear = selectedYear;   
             }
             
             newSelectedDay -= monthDaysCount;             
-            setMonthIndex(weekMonth); 
+            setMonthIndex(currentMonth); 
         }else{
-            weekMonth = selectedMonth;
-            weekYear = selectedYear; 
+            currentMonth = selectedMonth;
+            currentYear = selectedYear; 
         }
-        console.log("Week Year: ", weekYear, " Week Month: ", weekMonth, " selected Day: ", newSelectedDay)
+        //console.log("Week Year: ", currentYear, " Week Month: ", currentMonth, " selected Day: ", newSelectedDay)
         weekDay = isGregorian ?
-                    getGregDateWeekDay(weekYear, weekMonth, newSelectedDay) : 
-                    calendarConverter.getETWeekDay(weekYear, weekMonth + 1, newSelectedDay);
+                    getGregDateWeekDay(currentYear, currentMonth, newSelectedDay) : 
+                    calendarConverter.getETWeekDay(currentYear, currentMonth + 1, newSelectedDay);
 
-        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
+        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: currentMonth, selectedYear: currentYear, 
                          selectedDayIndex: newSelectedDay, selectedWeekDay:  weekDay})
+        setSelectedWeek(getSelectedWeek({selectedDay: newSelectedDay, selectedMonth: currentMonth, selectedYear: currentYear}, isGregorian))
+
    }else if(pickerOption === "day"){
+        // get the next day 
         newSelectedDay = selectedDay + 1
+        // get the number of days for the current month
         monthDaysCount = getMonthDaysCount(selectedMonth, selectedYear)
+        // check if the next day goes beyond the current month
         if(newSelectedDay > monthDaysCount){
+            // check if the current day is the last day of the selected year
             if((isGregorian && selectedMonth === 11) || (!isGregorian && selectedMonth === 12)){
-                weekMonth = 0   
-                weekYear = selectedYear + 1
-                setYearIndex(weekYear)  
+                currentMonth = 0; // change to the first month of the next year 
+                currentYear = selectedYear + 1; // go to the next year
+                setYearIndex(currentYear);  
             }else{
-                weekMonth = selectedMonth + 1
-                weekYear = selectedYear   
+                currentMonth = selectedMonth + 1; // go to the next month
+                currentYear = selectedYear;   
             }
-            newSelectedDay = 1
-            setMonthIndex(weekMonth) 
+            newSelectedDay = 1; // go to the first day of the next month
+            setMonthIndex(currentMonth) 
         }else{
-            weekMonth = selectedMonth
-            weekYear = selectedYear 
+            currentMonth = selectedMonth
+            currentYear = selectedYear 
         }
 
         weekDay = isGregorian ? 
-                        getGregDateWeekDay(weekYear, weekMonth, newSelectedDay) : 
-                        calendarConverter.getETWeekDay(weekYear, weekMonth + 1, newSelectedDay);
-        console.log("Week day: ", weekDay);
-        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: weekMonth, selectedYear: weekYear, 
+                        getGregDateWeekDay(currentYear, currentMonth, newSelectedDay) : 
+                        calendarConverter.getETWeekDay(currentYear, currentMonth + 1, newSelectedDay);
+        
+        setSelectedDate({selectedDay: newSelectedDay, selectedMonth: currentMonth, selectedYear: currentYear, 
                         selectedDayIndex: newSelectedDay, selectedWeekDay:  weekDay})
 }             
 }
@@ -227,13 +239,15 @@ const dateResetHandler = () => {
 const getHeaderTitle = () => {
     let monthTitle;
     if(pickerOption === 'month'){
-        monthTitle = isGregorian ? MONTHSGREG[monthIndex]: MONTHSETH[monthIndex]
-        return `${monthTitle} ${yearIndex}`
+        //monthTitle = isGregorian ? MONTHSGREG[monthIndex]: MONTHSETH[monthIndex]
+        //return `${monthTitle} ${yearIndex}`
+        monthTitle = isGregorian ? `${MONTHSGREG[monthIndex]} ${yearIndex}`: `${MONTHSETH[monthIndex]} ${yearIndex}`
+        return monthTitle;
 
     }else if(pickerOption === 'week'){
         const uniqueMonths = [...new Set(selectedWeek.week.map(day => day.dayMonth))];
         const uniqueYears = [...new Set(selectedWeek.week.map(day => day.dayYear))];
-        console.log("Unique Months: ", uniqueMonths, " Unique Years: ", uniqueYears);
+        console.log("Unique Months Length: ", uniqueMonths.length, " Unique Years Length: ", uniqueYears.length);
 
         if(uniqueYears.length > 1){
             if(isGregorian){
@@ -243,23 +257,19 @@ const getHeaderTitle = () => {
                 monthTitle = `${MONTHSETHSHORT[uniqueMonths[0]]} ${uniqueYears[0]} - ${MONTHSETHSHORT[uniqueMonths[2]]} ${uniqueYears[1]}`;
             }else{
                 monthTitle = `${MONTHSETHSHORT[uniqueMonths[0]]} ${uniqueYears[0]} - ${MONTHSETHSHORT[uniqueMonths[1]]} ${uniqueYears[1]}`;
-            }
-            return monthTitle
+            } 
         }
         else if(uniqueYears.length === 1 && uniqueMonths.length > 1){
-            monthTitle = isGregorian ? `${MONTHSGREGSHORT[uniqueMonths[0]]} - ${MONTHSGREGSHORT[uniqueMonths[1]]}`:
-                                       `${MONTHSETHSHORT[uniqueMonths[0]]} - ${MONTHSETHSHORT[uniqueMonths[1]]}`
-
-            return `${monthTitle} ${uniqueYears[0]}`
+            monthTitle = isGregorian ? `${MONTHSGREGSHORT[uniqueMonths[0]]} - ${MONTHSGREGSHORT[uniqueMonths[1]]} ${uniqueYears[0]}`:
+                                       `${MONTHSETHSHORT[uniqueMonths[0]]} - ${MONTHSETHSHORT[uniqueMonths[1]]} ${uniqueYears[0]}`;
         }else {
-            monthTitle = isGregorian ? MONTHSGREG[monthIndex]: MONTHSETH[monthIndex]
-            return `${monthTitle} ${yearIndex}` 
-        } 
+            monthTitle = isGregorian ? `${MONTHSGREG[monthIndex]} ${yearIndex}`: `${MONTHSETH[monthIndex]} ${yearIndex}`   
+        }  
+        return monthTitle;
     }else if(pickerOption === 'day'){
         monthTitle = isGregorian ? MONTHSGREG[selectedDate.selectedMonth] : MONTHSETH[selectedDate.selectedMonth]
         return `${monthTitle} ${selectedDate.selectedDay}, ${selectedDate.selectedYear}`
-    }
-    else if(pickerOption === 'year'){
+    }else if(pickerOption === 'year'){
         return `${yearIndex}`
     }
 }

@@ -3,7 +3,7 @@ import {  Grid, IconButton, Stack, Typography } from '@mui/material'
 import { useContext, useEffect, useState } from 'react';
 import CalanderContext from '../../Store/calander-store';
 import { MONTHSETH, MONTHSGREG, WEEKDAYSETH, WEEKDAYSGREG } from '../../Util/CalanderConstants';
-import {getMonthDaysEthiopic, getMonthDaysGreg} from '../../Util/CalanderFunction';
+import {getMonthDaysEthiopic, getMonthDaysGreg, getSelectedWeek} from '../../Util/CalanderFunction';
 import CalanderSideDay from '../UI/Button/Calander-Side_Days';
 
  
@@ -27,6 +27,8 @@ export default function CalanderSide() {
         context.setYearIndex(context.selectedDate.selectedYear)    
         context.setMonthSideIndex(context.selectedDate.selectedMonth)
         context.setYearSideIndex(context.selectedDate.selectedYear) 
+    
+        context.setSelectedWeek(getSelectedWeek(context.selectedDate, context.isGregorian));
     }, [context.selectedDate])
 
     
