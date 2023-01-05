@@ -134,7 +134,9 @@ export default function WeeklyCalander()
 
 
             <Stack display="flex" 
-             flexGrow={1} height="fit-content" flexDirection="row">
+             flexGrow={1} height="fit-content" flexDirection="row"
+             fontSize={{ xs : "5%" , sm: "30%" ,  md: "35%"  ,lg : "50%" }}
+                >
                 <Box
                             sx={{
                                 px: 0,
@@ -152,7 +154,7 @@ export default function WeeklyCalander()
                                     p: { xs: 0 },
                                     color: "hsla(228, 12%, 48%, 0.868)",
                                     textAlign: "center",
-                                    fontSize: "0.75em",
+                                    fontSize: "1.3em",
                                     fontFamily: "Montserrat",
                                     fontWeight: "500",
                                 }}
@@ -220,7 +222,9 @@ export default function WeeklyCalander()
 
         <Grid display="flex" flexDirection="column" 
           justifyContent="stretch" justifyItems="stretch"
-         flexGrow={1}  height="100%"  >
+         flexGrow={1}  height="100%" 
+         fontSize={{ xs : "5%" , sm: "30%" ,  md: "35%"  ,lg : "50%" }}
+         >
 
         {
             HOURS.map((hour) => {
@@ -250,7 +254,7 @@ export default function WeeklyCalander()
                                            pr:{xs:1},
                                            color: "hsla(228, 12%, 48%, 0.868)",
                                            textAlign: "right",
-                                           fontSize: "0.75em",
+                                           fontSize: "1.3em",
                                            fontFamily: "Montserrat",
                                            fontWeight: "500",
                                            letterSpacing: 1.5

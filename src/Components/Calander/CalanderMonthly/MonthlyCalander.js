@@ -11,7 +11,12 @@ export default function MonthlyCalander() {
   let weekdays = context.isGregorian ? WEEKDAYSGREG : WEEKDAYSETH;
 
   return (
-    <Fragment>
+    <Stack 
+      sx={{
+        
+      }}
+    >
+     
       <Stack display="flex" height="fit-content" flexDirection="row"  width="100%" >
         {weekdays.map((day) => {
           return (
@@ -23,8 +28,7 @@ export default function MonthlyCalander() {
                 display: "flex",
                 flexDirection: "row",
                 justifyItems: "stretch",
-                flexGrow: 1,
-                flexShrink: 1,
+               
                 flexBasis: "0%",
                 borderColor: "hsla(0, 1%, 74%, 0.542)",
                 borderWidth: 1,
@@ -34,7 +38,7 @@ export default function MonthlyCalander() {
                 borderStyle: "solid",
 
                 height: { xs: "100%" },
-
+                width: "100%",
                 overflow: "hidden",
                 "&:hover": {
                   backgroundColor: "primary.main",
@@ -62,6 +66,6 @@ export default function MonthlyCalander() {
 
       <MonthlyTask />
       
-    </Fragment>
+    </Stack>
   );
 }

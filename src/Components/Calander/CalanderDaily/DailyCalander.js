@@ -20,8 +20,11 @@ export default function DailyCalander()
     
 
     return(
-            <Fragment >
-         <AppBar  position="sticky" sx={{ height:"fit-content", bgcolor:"white" , boxShadow : "0 0 0" }} >
+        <Fragment >
+         <AppBar  
+           position="sticky"
+           
+           sx={{ height:"fit-content", bgcolor:"white" , boxShadow : "0 0 0" }} >
          <Toolbar 
             sx={{
              bgcolor:"transparent",
@@ -29,6 +32,7 @@ export default function DailyCalander()
               flexDirection: "column",
               alignItems:"stretch",
               Height: "100%",
+             
               mx: { xs: 0 },
               px: { xs: 0 },
               pt:{xs : 1}
@@ -55,6 +59,7 @@ export default function DailyCalander()
                             <Typography
                                 width="100%"
                                 sx={{
+                                  
                                     p:{xs:0.5},
                                     pl: { xs: 1 },
                                     color: "hsla(228, 12%, 48%, 0.868)",
@@ -101,7 +106,8 @@ export default function DailyCalander()
 
 
             <Stack display="flex" 
-             flexGrow={1} height="fit-content" flexDirection="row">
+             flexGrow={1} height="fit-content" flexDirection="row"  
+             fontSize={{ xs : "5%" , sm: "30%" ,  md: "35%"  ,lg : "50%" }}>
                 <Box
                             sx={{
                                 px: 0,
@@ -111,15 +117,17 @@ export default function DailyCalander()
                                 justifyContent:"flex-end",
                                 width:"5%",
                                 overflow: "hidden",
+                                fontSize:"inherit"
                             }}
                         >
                             <Typography
                                 width="100%"
                                 sx={{
+                                   
                                     p: { xs: 0 },
                                     color: "hsla(228, 12%, 48%, 0.868)",
                                     textAlign: "center",
-                                    fontSize: "0.75em",
+                                    fontSize: "1.3em",
                                     fontFamily: "Montserrat",
                                     fontWeight: "500",
                                 }}
@@ -174,13 +182,18 @@ export default function DailyCalander()
                             </Typography>
                         </Box>
             </Stack>
+
           </Toolbar>
          </AppBar>   
 
 
          <Grid display="flex" flexDirection="column" 
           justifyContent="stretch" justifyItems="stretch"
-         flexGrow={1}  height="100%"  >
+         flexGrow={1}  height="100%"
+         
+         fontSize={{ xs : "5%" , sm: "30%" ,  md: "35%"  ,lg : "50%" }}
+         
+         >
 
         {
             HOURS.map((hour) => {
@@ -210,10 +223,10 @@ export default function DailyCalander()
                                            pr:{xs:1},
                                            color: "hsla(228, 12%, 48%, 0.868)",
                                            textAlign: "right",
-                                           fontSize: "0.75em",
+                                           fontSize: "1.3em",
                                            fontFamily: "Montserrat",
                                            fontWeight: "500",
-                                           letterSpacing: 1.5
+                                           letterSpacing: 1
                                            
                                        }}
                                    >
@@ -230,7 +243,7 @@ export default function DailyCalander()
                            borderStyle: "solid",
                        }} />
                            
-                       {weekdays.map((day) => {
+                       {weekdays.map((day,dayidx) => {
                            return (
                                <Box
                                     key={day}
@@ -244,7 +257,7 @@ export default function DailyCalander()
                                        flexBasis: "0%",
                                        borderColor: "hsla(0, 1%, 74%, 0.542)",
                                        borderWidth:0,
-                                       borderLeftWidth: day === "SUN" ? 1 : 0,
+                                       borderLeftWidth: dayidx === 0 ? 1 : 0,
                                        borderBottomWidth:1,
                                        borderRightWidth: day === "SAT" ? 1 : 0,
                                        borderStyle: "solid",

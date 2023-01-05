@@ -8,7 +8,15 @@ import SideBar from '../SideBar/SideBar';
 export default function MainView()
 {
     return (
-    <Grid container pt={1.6}   >
+    <Grid container  pt={0} 
+        sx={
+            {
+                bgcolor:"gainsboro",
+                flexGrow:1
+            }
+
+        }
+    >
             
             <SideBar />
             <EventViewer />

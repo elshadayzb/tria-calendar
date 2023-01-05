@@ -25,7 +25,7 @@ export default function HeaderBar() {
   const breakptreached = useMediaQuery('(min-width:744px)')
   return (
     <Fragment>
-      <Box sx={{  flexGrow:1  }}>
+      <Box sx={{  flexGrow:0 , bgcolor:"black"  }}>
         <AppBar
           elevation={0}
           sx={{

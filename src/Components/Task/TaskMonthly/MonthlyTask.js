@@ -27,7 +27,11 @@ export default function MonthlyTask(props) {
   }
 
   return (
-    <Fragment  sx={{
+    <Stack  sx={{
+      width:"100%",
+      height:"100%",
+      bgcolor:"blue"
+      
     }}  >
       {monthDays.map((row,weekidx) => {
         return (
@@ -35,16 +39,17 @@ export default function MonthlyTask(props) {
           <Stack
             key={weekidx}
             display="flex"
-            
             overflow="hidden"
-           
             flexDirection="row"
+            
             sx={{
                   // minHeight: "15.885%" //monthDays.length === 6 ? "15.885%" : "19%",
-                
+                 
                   m:0,
                   width:"100%",
-                  height:"23.9%",
+                  height:"100%"
+
+                 
                
           }}
           >
@@ -75,6 +80,7 @@ export default function MonthlyTask(props) {
                     fontFamily:'Montserrat',
                     fontWeight:'400',
                     fontSize:{ xs: "90%" },
+                   
                   }}
                 >
 
@@ -117,6 +123,6 @@ export default function MonthlyTask(props) {
           </Stack>
         );
       })}
-    </Fragment>
+    </Stack>
   );
 }

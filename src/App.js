@@ -1,4 +1,4 @@
-import { Stack} from '@mui/material';
+import { Grid, Stack} from '@mui/material';
 import { Fragment } from 'react';
 import HeaderBar from './Components/HeaderBar/HeaderBar';
 import MainView from './Components/MainView/MainView';
@@ -11,10 +11,17 @@ function App() {
    
     
       <Fragment>
-         <Stack >
-            <HeaderBar />
-            <MainView />
-        </Stack>
+         
+        <Grid 
+        spacing={2}
+        sx={{ bgcolor:"blueviolet" , 
+
+               height:"100vh" , 
+                display: "flex" ,
+                 flexDirection:"column" }}>
+                <HeaderBar />
+                <MainView />
+        </Grid>
   
       </Fragment>
       
