@@ -8,10 +8,10 @@ import SideBar from '../SideBar/SideBar';
 export default function MainView()
 {
     return (
-    <Grid container  pt={0} 
+    <Grid container  pt={2} 
         sx={
             {
-                bgcolor:"gainsboro",
+               // bgcolor:"gainsboro",
                 flexGrow:1
             }
 

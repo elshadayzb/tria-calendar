@@ -13,7 +13,7 @@ export default function MonthlyCalander() {
   return (
     <Stack 
       sx={{
-        
+        flexGrow:1
       }}
     >
      
@@ -28,7 +28,7 @@ export default function MonthlyCalander() {
                 display: "flex",
                 flexDirection: "row",
                 justifyItems: "stretch",
-               
+                flexGrow:1,
                 flexBasis: "0%",
                 borderColor: "hsla(0, 1%, 74%, 0.542)",
                 borderWidth: 1,

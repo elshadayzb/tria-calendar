@@ -17,17 +17,19 @@ export default function EventViewer()
    return(
      <Grid   
          display="flex" 
-         
          flexDirection="row"
+         flexGrow={1}
          overflow= { (context.pickerOption === "day" || context.pickerOption === "week" ) ? "auto" : "unset"  }
          height={ (context.pickerOption === "day" || context.pickerOption === "week" ) ? "89.3vh" : "auto"  }
          container item  
          
-        
+       
          xs={8}
          sm={!breakptreached ? 8.5 :8.8}
          md={9.2}
          lg={9.8}
+
+
          
         >
     

@@ -19,7 +19,8 @@ export default function  SideBar()
             {
                 display:"flex",
                 flexDirection:"row",
-                alignContent:"flex-start"
+                alignContent:"flex-start",
+                
                 
             }
          }

@@ -14,9 +14,10 @@ function App() {
          
         <Grid 
         spacing={2}
-        sx={{ bgcolor:"blueviolet" , 
+        sx={{ //bgcolor:"blueviolet" , 
 
                height:"100vh" , 
+               flexGrow:1,
                 display: "flex" ,
                  flexDirection:"column" }}>
                 <HeaderBar />
