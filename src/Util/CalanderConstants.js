@@ -7,7 +7,7 @@ export const MONTHSGREGSHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
 export const MONTHSETHENG = ["Meskerem", "Tikimt", "Hidar", "Tahsas", "Tir", "Yekatit", "Megabit", "Miazia", "Ginbot", "Sene", "Hamle", "Nehase", "Pagume"]
 export const MONTHSETHSHORTENG = ["Mes", "Tik", "Hid", "Tah", "Tir", "Yek", "Meg", "Mia", "Gin", "Sen", "Ham", "Neh", "Pag"]
 
-export const WEEKDAYSETH = ["እሁድ", "ሰኞ", "ማክሰ", "እሮብ", "ሃሙስ", "አርብ", "ቅዳሜ"]
+export const WEEKDAYSETH = ["እሁድ", "ሰኞ", "ማክሰኞ", "እሮብ", "ሃሙስ", "አርብ", "ቅዳሜ"]
 export const MONTHSETH = ["መስከረም", "ጥቅምት", "ህዳር", "ታህሳስ", "ጥር", "የካቲት", "መጋቢት", "ሚያዝያ", "ግንቦት", "ሰኔ", "ሃምሌ", "ነሀሴ", "ጳጉሜ"]
 export const MONTHSETHSHORT = ["መስከ", "ጥቅም", "ህዳር", "ታህሳ", "ጥር", "የካቲ", "መጋቢ", "ሚያዝ", "ግንቦ", "ሰኔ", "ሃምሌ", "ነሀሴ", "ጳጉሜ"]
 

@@ -3,7 +3,7 @@ import {  Grid, IconButton, Stack, Typography, useMediaQuery } from '@mui/materi
 import { useContext, useEffect, useState } from 'react';
 import CalanderContext from '../../Store/calander-store';
 import { MONTHSETH, MONTHSGREG, WEEKDAYSETH, WEEKDAYSGREG } from '../../Util/CalanderConstants';
-import {getMonthDaysEthiopic, getMonthDaysGreg} from '../../Util/CalanderFunction';
+import {getMonthDaysEthiopic, getMonthDaysGreg, getSelectedWeek} from '../../Util/CalanderFunction';
 import CalanderSideDay from '../UI/Button/Calander-Side_Days';
 
  
@@ -13,34 +13,36 @@ export default function CalanderSide() {
     let breakptreached = useMediaQuery('(min-width:671px)');
     let breakptreachedxs = useMediaQuery('(min-width:560px)');
     
-    let context = useContext(CalanderContext);
+    const context = useContext(CalanderContext);
 
-    const [monthDays, setMonthDays] = useState(getMonthDaysGreg(context.monthSideIndex, context.yearSideIndex))
+    const [monthDays, setMonthDays] = useState(context.isGregorian ?
+                                               getMonthDaysGreg(context.monthSideIndex, context.yearSideIndex):
+                                               getMonthDaysEthiopic(context.monthSideIndex, context.yearSideIndex))
     
-    let weekdaynames = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH;
+    const weekdaynames = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH;
 
-    let monthName = context.isGregorian ? MONTHSGREG[context.monthSideIndex]: MONTHSETH[context.monthSideIndex > 7 ? (context.monthSideIndex - 8) : 
-        (context.monthSideIndex + 4)];
-    let year = context.isGregorian ? context.yearSideIndex : (context.monthSideIndex > 7 ? (context.yearSideIndex - 7) : (context.yearSideIndex - 8));
-
+    const monthName = context.isGregorian ? MONTHSGREG[context.monthSideIndex]: MONTHSETH[context.monthSideIndex];
+    
 
     useEffect(()=>{
-        console.log(`running use effect 1 ${context.monthSideIndex} `)      
-      setMonthDays(context.isGregorian? getMonthDaysGreg(context.monthSideIndex, context.yearSideIndex): getMonthDaysEthiopic(context.monthSideIndex, context.yearSideIndex))   
-    }, [context.monthSideIndex, context.yearSideIndex, context.isGregorian])
-
-    useEffect(()=>{
-        console.log(`running use effect 2`)
         context.setMonthIndex(context.selectedDate.selectedMonth)
         context.setYearIndex(context.selectedDate.selectedYear)    
         context.setMonthSideIndex(context.selectedDate.selectedMonth)
         context.setYearSideIndex(context.selectedDate.selectedYear) 
+    
+        context.setSelectedWeek(getSelectedWeek(context.selectedDate, context.isGregorian));
     }, [context.selectedDate])
 
+    
+    useEffect(()=>{      
+      setMonthDays(context.isGregorian? 
+                        getMonthDaysGreg(context.monthSideIndex, context.yearSideIndex): 
+                        getMonthDaysEthiopic(context.monthSideIndex, context.yearSideIndex))   
+    }, [context.monthSideIndex, context.yearSideIndex, context.isGregorian])
 
-
+    
     const dayClickHandler = (day) => {
-       
+        console.log("Day: ", day)
         context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, selectedYear: day.dayYear, 
                         selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay})
         if(context.monthIndex !== day.dayMonth || context.yearIndex !== day.dayYear){
@@ -52,23 +54,20 @@ export default function CalanderSide() {
 
     const prevMonthHandler = ()=>{
         if(context.monthSideIndex === 0){
-            context.setMonthSideIndex(11)
+            context.setMonthSideIndex(context.isGregorian ? 11 : 12)
             context.setYearSideIndex(curSideYear => curSideYear - 1)
         }else{
             context.setMonthSideIndex(curSideMonth => curSideMonth - 1)  
         }
     }
     const nextMonthHandler = ()=>{
-        if(context.monthSideIndex === 11){
+        if((context.isGregorian && context.monthSideIndex === 11) || (!context.isGregorian && context.monthSideIndex === 12)){
             context.setMonthSideIndex(0)
             context.setYearSideIndex(curSideYear => curSideYear + 1)
         }else{
             context.setMonthSideIndex(curSideMonth => curSideMonth + 1)
         }         
     }
-
-
-
 
     return (
       <Grid container item xs={12} sx={{
@@ -117,7 +116,7 @@ export default function CalanderSide() {
                 fontWeight: "500",
               }}
             >
-              {` ${monthName}  ${year}`}
+              {` ${monthName} ${context.yearSideIndex}`}
             </Typography>
 
             <Stack

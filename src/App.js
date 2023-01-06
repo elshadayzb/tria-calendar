@@ -8,8 +8,6 @@ import {CalanderContextProvider} from './Store/calander-store';
 function App() {
   return (
 
-   
-    
       <Fragment>
          
         <Grid 
@@ -25,8 +23,6 @@ function App() {
         </Grid>
   
       </Fragment>
-      
-
 
   );
 }

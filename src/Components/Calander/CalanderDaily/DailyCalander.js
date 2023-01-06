@@ -16,7 +16,7 @@ export default function DailyCalander()
 {
 
     const context = useContext(CalanderContext);
-    let weekdays = context.isGregorian ? WEEKDAYSGREG : WEEKDAYSETH;
+    const weekdays = context.isGregorian ? WEEKDAYSGREG : WEEKDAYSETH;
     
 
     return(

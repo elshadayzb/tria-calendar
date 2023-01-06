@@ -6,9 +6,9 @@ import { WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
 import CalanderContext from "../../../Store/calander-store";
 
 export default function MonthlyCalander() {
-  let context = useContext(CalanderContext);
+  const context = useContext(CalanderContext);
 
-  let weekdays = context.isGregorian ? WEEKDAYSGREG : WEEKDAYSETH;
+  const weekdays = context.isGregorian ? WEEKDAYSGREG : WEEKDAYSETH;
 
   return (
     <Stack 

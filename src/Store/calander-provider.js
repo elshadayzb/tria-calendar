@@ -1,35 +1,34 @@
-import { useReducer,useState } from "react";
-import { getSelectedWeekGreg } from "../Util/CalanderFunction";
+import React, { useState, useEffect } from "react";
+import { getSelectedWeek } from "../Util/CalanderFunction";
 import CalanderContext from "./calander-store";
-
+import CalendarConverter from "../Util/CalendarConverter";
 
 
 export function CalanderContextProvider(props)
 {
+    const calendarConverter = new CalendarConverter()
 
+    const today = new Date(); //get today in Gregorian
+    today.setFullYear(today.getFullYear());
+    const day = today.getDate() ;
+    const weekDay = today.getDay();
+    const month = today.getMonth();   
+    const year = today.getFullYear();
+    const etToday = calendarConverter.getETToday(year, month + 1, day); // get today in Ethiopic
 
-   
-
-
-
-    const day = new Date().getDate()
-    const weekDay = new Date().getDay()
-    const month = new Date().getMonth()
-    const etMonth = month > 7 ? (month - 8) : (month + 4)
-    const year = new Date().getFullYear()
-    const etYear = month > 7 ? (year - 7) : (year - 8)
-
-    const [monthIndex, setMonthIndex] = useState(month)
-    const [yearIndex, setYearIndex] = useState(year)
-    const [monthSideIndex, setMonthSideIndex] = useState(month)
-    const [yearSideIndex, setYearSideIndex] = useState(year)
     const [isGregorian, setIsGregorian] = useState(true)
-    const [selectedDate, setSelectedDate] = useState({selectedDay: day, selectedMonth: month, selectedYear: year, selectedDayIndex: day, selectedWeekDay: weekDay})
+    const [monthIndex, setMonthIndex] = useState(isGregorian ?  month : etToday.month - 1)
+    const [yearIndex, setYearIndex] = useState(isGregorian ? year : etToday.year)
+    const [monthSideIndex, setMonthSideIndex] = useState(isGregorian ?  month : etToday.month - 1)
+    const [yearSideIndex, setYearSideIndex] = useState(isGregorian ? year : etToday.year) 
+    const [selectedDate, setSelectedDate] = useState( isGregorian ? 
+            {selectedDay: day, selectedMonth: month, selectedYear: year, selectedDayIndex: day, selectedWeekDay: weekDay}:
+            {selectedDay: etToday.day, selectedMonth: etToday.month - 1, selectedYear: etToday.year, selectedDayIndex: etToday.day, selectedWeekDay: weekDay}
+        )
     const [pickerOption, setPickerOption] = useState("month")
-    const [selectedWeek, setSelectedWeek] = useState(getSelectedWeekGreg(selectedDate))
+    const [selectedWeek, setSelectedWeek] = useState(getSelectedWeek(selectedDate, isGregorian))
+
     
-
-
     const values= {
         monthIndex: monthIndex,
         setMonthIndex: setMonthIndex,
@@ -50,10 +49,8 @@ export function CalanderContextProvider(props)
     }
 
     return (
-        <CalanderContext.Provider
-         value= {values}
-        >{
-                props.children
-            }</CalanderContext.Provider>
+        <CalanderContext.Provider value= {values}>
+            {props.children}
+        </CalanderContext.Provider>
     );
 }  
