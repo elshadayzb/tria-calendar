@@ -1,13 +1,11 @@
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext } from "react";
 import {
   AppBar,
   Typography,
   Box,
   Toolbar,
   IconButton,
-  Button,
   Container,
-  SvgIcon,
   Switch,
   useMediaQuery,
 } from "@mui/material";
@@ -113,9 +111,6 @@ export default function HeaderBar() {
                 />
               </IconButton>
               
-              {/* <SvgIcon color="success" sx={{ fontSize: 40 }}>
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-              </SvgIcon> */}
               <Typography
                 sx={{
                   letterSpacing: 0.8,

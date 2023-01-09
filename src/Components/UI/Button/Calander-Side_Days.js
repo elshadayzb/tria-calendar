@@ -26,13 +26,13 @@ function DayStyler(isGregorian, month, year, selectedDate, day, isSide, pickerOp
         
     if(isGregorian && (currentDate.getDate() === day.day) && 
             (currentDate.getMonth() === day.dayMonth) && 
-                (currentDate.getFullYear() === day.dayYear)){
+                (currentDate.getFullYear() === day.dayYear) && (day.dayIndex > 0 && day.dayIndex <= monthDaysCount)){
                     return btnStyles.active;
 
             }
         else if(!isGregorian && (etToday.day === day.day) && 
                 ((etToday.month - 1) === day.dayMonth) && 
-                     (etToday.year === day.dayYear)){
+                     (etToday.year === day.dayYear) && (day.dayIndex > 0 && day.dayIndex <= monthDaysCount)){
                         return btnStyles.active             
         }
         

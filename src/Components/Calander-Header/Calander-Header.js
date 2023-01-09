@@ -1,9 +1,9 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext } from "react";
 import {ChevronLeftOutlined, ChevronRightOutlined, } from "@mui/icons-material";
 import { IconButton, Typography, Button } from "@mui/material";
 import { Stack } from "@mui/system";
 import CalanderContext from "../../Store/calander-store";
-import { MONTHSETH, MONTHSETHSHORT, MONTHSGREG, MONTHSGREGDAYS, MONTHSGREGSHORT } from "../../Util/CalanderConstants";
+import { MONTHSETH, MONTHSETHSHORT, MONTHSGREG, MONTHSGREGSHORT } from "../../Util/CalanderConstants";
 import { getSelectedWeek, getGregMonthDaysCount, getEthMonthDaysCount, getGregDateWeekDay} from "../../Util/CalanderFunction";
 import CalendarConverter from "../../Util/CalendarConverter";
 
@@ -16,7 +16,7 @@ const {monthIndex, setMonthIndex, yearIndex, setYearIndex,  pickerOption,
 const calendarConverter = new CalendarConverter();
 
 const {selectedDay, selectedMonth, selectedYear} = selectedDate; 
-let monthDaysCount, currentYear, currentMonth, weekDay, newSelectedDay, gregDate;
+let monthDaysCount, currentYear, currentMonth, weekDay, newSelectedDay;
 
 const getMonthDaysCount = (month, year) => {
     return isGregorian ? getGregMonthDaysCount(month, year) : getEthMonthDaysCount(month, year);
@@ -29,8 +29,6 @@ const prevMonthHandler = ()=>{
         weekDay = isGregorian ?
                     getGregDateWeekDay(currentYear, selectedMonth, selectedDay) : 
                     calendarConverter.getETWeekDay(currentYear, selectedMonth + 1, selectedDay); 
-                    //getGregDateWeekDay(currentYear, selectedMonth, 1) : 
-                    //calendarConverter.getETMonthStartDay(currentYear, selectedMonth + 1);
                     
         setSelectedDate({selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: currentYear, selectedDayIndex: selectedDay, 
                          selectedWeekDay: weekDay }) 
@@ -180,7 +178,7 @@ const nextMonthHandler = ()=>{
             currentMonth = selectedMonth;
             currentYear = selectedYear; 
         }
-        //console.log("Week Year: ", currentYear, " Week Month: ", currentMonth, " selected Day: ", newSelectedDay)
+        
         weekDay = isGregorian ?
                     getGregDateWeekDay(currentYear, currentMonth, newSelectedDay) : 
                     calendarConverter.getETWeekDay(currentYear, currentMonth + 1, newSelectedDay);
@@ -247,7 +245,6 @@ const getHeaderTitle = () => {
     }else if(pickerOption === 'week'){
         const uniqueMonths = [...new Set(selectedWeek.week.map(day => day.dayMonth))];
         const uniqueYears = [...new Set(selectedWeek.week.map(day => day.dayYear))];
-        console.log("Unique Months Length: ", uniqueMonths.length, " Unique Years Length: ", uniqueYears.length);
 
         if(uniqueYears.length > 1){
             if(isGregorian){

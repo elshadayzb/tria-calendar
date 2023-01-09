@@ -1,5 +1,5 @@
 import { FiberManualRecord } from "@mui/icons-material";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import { Fragment,useContext , useState , useEffect } from "react";
 import { getMonthDaysGreg , getMonthDaysEthiopic } from "../../../Util/CalanderFunction";
@@ -39,7 +39,6 @@ export default function MonthlyTask(props) {
     }}  >
       {monthDays.map((row,weekidx) => {
         return (
-          //"15.885%":"19%"
           <Stack
             key={weekidx}
             display="flex"

@@ -27,7 +27,6 @@ export default function CalanderViewType() {
     setAnchorEl(null);
   };
   const handleViewChange = (option) => {
-    console.log(option);
     handleClose();
     context.setPickerOption(option)
   };

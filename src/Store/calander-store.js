@@ -17,8 +17,8 @@ const CalanderContext =  createContext({
     pickerOption: "month",
     setPickerOption: (picker)=>{},
     selectedWeek: null,
-    setSelectedWeek: (week)=>{}
-    
+    setSelectedWeek: (week)=>{},
+    sideMonthDays: []
 })
 
 

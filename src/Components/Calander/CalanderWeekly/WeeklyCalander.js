@@ -1,4 +1,4 @@
-import { Fragment , useContext, useEffect } from "react";
+import { Fragment , useContext } from "react";
 import {
     AppBar,
     Typography,
@@ -9,7 +9,6 @@ import {
 import { Stack } from "@mui/system";
 import { HOURS, WEEKDAYSETH, WEEKDAYSGREG } from "../../../Util/CalanderConstants";
 import CalanderContext from "../../../Store/calander-store";
-import { getSelectedWeek } from "../../../Util/CalanderFunction";
 import CalanderSideDay from "../../UI/Button/Calander-Side_Days";
 
 
@@ -20,12 +19,6 @@ export default function WeeklyCalander()
     
     const weekdays = (context.isGregorian) ? WEEKDAYSGREG : WEEKDAYSETH ;
 
-
-    /* useEffect(()=>{
-        context.setSelectedWeek(getSelectedWeek(context.selectedDate, context.isGregorian));
-    }, [context.selectedDate, context.isGregorian]) */
-    
-    
     const dayClickHandler = (day) => {
         context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, selectedYear: day.dayYear, 
                                 selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay});

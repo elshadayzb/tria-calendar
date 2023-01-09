@@ -1,4 +1,4 @@
-import { MONTHSGREGDAYS, MONTHSETHDAYS, MONTHSGREG, MONTHSETH, MONTHSGREGSHORT, MONTHSETHSHORT } from "./CalanderConstants";
+import { MONTHSGREGDAYS, MONTHSGREG, MONTHSETH, MONTHSGREGSHORT, MONTHSETHSHORT } from "./CalanderConstants";
 import CalendarConverter from "./CalendarConverter";
 
 /* return the number of days for Gregorian months */
@@ -154,7 +154,6 @@ export const getMonthDaysEthiopic = (month, year) =>{
 }
 
 export const getSelectedWeek = (selectedDate, isGregorian)=>{
-    //console.log("Selected Day", selectedDay, "selected Month: ", selectedMonth, "selected year: ", selectedYear)
     const {selectedDay, selectedMonth, selectedYear} = selectedDate;
     const selectedMonthDays = isGregorian ? 
                                 getMonthDaysGreg (selectedMonth, selectedYear) : 

@@ -1,37 +1,34 @@
-import Button from "@mui/material/Button";
+import { useContext, useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { AddRounded, ArrowDropDown, KeyboardArrowDown } from "@mui/icons-material";
+import { AddRounded, ArrowDropDown} from "@mui/icons-material";
 import { Stack } from "@mui/system";
 import { Typography, useMediaQuery } from "@mui/material";
-import { useContext, useState } from "react";
 import CalanderContext from "../../Store/calander-store";
 
 
 
-let optionsEN = ["Event","Task"];
-let optionsAM = ["ሁነት" , "ተግባር"]
+
 
 export default function CreateEventTask() {
 
-  let breakptreached = useMediaQuery('(min-width:1297px)');
-  let breakptreachedxs = useMediaQuery('(min-width:560px)');
+  const breakptreached = useMediaQuery('(min-width:1297px)');
+  const breakptreachedxs = useMediaQuery('(min-width:560px)');
 
-  let context = useContext(CalanderContext);
+  const context = useContext(CalanderContext);
 
   const [anchorEl, setAnchorEl] =  useState(null);
-  const [selectedViewOption , setSelectedViewOption] = useState("Month");
-
-
-
+ 
+  const optionsEN = ["Event","Task"];
+  const optionsAM = ["ሁነት" , "ተግባር"]
 
   const open = Boolean(anchorEl);
+  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleSelection = (option) => {
     setAnchorEl(null);
-    console.log(option);
   };
 
   return (

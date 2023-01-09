@@ -1,5 +1,5 @@
-import {  Grid, Typography, useMediaQuery } from '@mui/material'
-import { useContext, useEffect, useState } from 'react';
+import {  Grid, Typography } from '@mui/material'
+import { useContext } from 'react';
 import CalanderContext from '../../../../Store/calander-store';
 import { MONTHSETH, MONTHSGREG, WEEKDAYSETH, WEEKDAYSGREG } from '../../../../Util/CalanderConstants';
 import {getMonthDaysEthiopic, getMonthDaysGreg} from '../../../../Util/CalanderFunction';
@@ -77,8 +77,6 @@ export default function YearMonthCalander(props) {
                                 >
                                     {
                                         week.map((day,dayidx) => {
-                                            
-                                           // console.log(`the counter ${counter}`);
                                             return (
                                                 <CalanderSideDay 
                                                 dayClicked={dayClickHandler} 

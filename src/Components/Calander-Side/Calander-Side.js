@@ -42,7 +42,6 @@ export default function CalanderSide() {
 
     
     const dayClickHandler = (day) => {
-        console.log("Day: ", day)
         context.setSelectedDate({selectedDay: day.day, selectedMonth: day.dayMonth, selectedYear: day.dayYear, 
                         selectedDayIndex: day.dayIndex, selectedWeekDay: day.weekDay})
         if(context.monthIndex !== day.dayMonth || context.yearIndex !== day.dayYear){
@@ -214,7 +213,6 @@ export default function CalanderSide() {
                   fontSize="inherit"
                 >
                   {week.map((day, dayidx) => {
-                    // console.log(`the counter ${counter}`);
                     return (
                       <CalanderSideDay
                         dayClicked={dayClickHandler}
